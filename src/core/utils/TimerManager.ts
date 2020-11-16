@@ -3,8 +3,8 @@
  * Timer管理器
  */
 class TimerManager extends SingtonClass {
-    private _handlers: Array<TimerHandler>;
-    private _delHandlers: Array<TimerHandler>;
+    private _handlers: Array<TimerHandlerData>;
+    private _delHandlers: Array<TimerHandlerData>;
     private _currTime: number;
     private _currFrame: number;
     private _count: number;
@@ -17,8 +17,8 @@ class TimerManager extends SingtonClass {
      */
     public constructor() {
         super();
-        this._handlers = new Array<TimerHandler>();
-        this._delHandlers = new Array<TimerHandler>();
+        this._handlers = new Array<TimerHandlerData>();
+        this._delHandlers = new Array<TimerHandlerData>();
         this._currTime = egret.getTimer();
         this._currFrame = 0;
         this._count = 0;
@@ -50,7 +50,7 @@ class TimerManager extends SingtonClass {
             this.removeHandle(this._delHandlers.pop());
         }
         for (var i: number = 0; i < this._count; i++) {
-            var handler: TimerHandler = this._handlers[i];
+            var handler: TimerHandlerData = this._handlers[i];
             if (this._delHandlers.indexOf(handler) != -1) {
                 continue;
             }
@@ -78,7 +78,7 @@ class TimerManager extends SingtonClass {
         App.DebugUtils.stop("TimerManager:");
     }
 
-    private removeHandle(handler: TimerHandler): void {
+    private removeHandle(handler: TimerHandlerData): void {
         var i = this._handlers.indexOf(handler);
         if (i == -1) {
             Log.warn("what????");
@@ -99,7 +99,7 @@ class TimerManager extends SingtonClass {
         this.remove(method, methodObj);
 
         //创建
-        var handler: TimerHandler = ObjectPool.pop("TimerHandler");
+        var handler: TimerHandlerData = ObjectPool.pop("TimerHandlerData");
         handler.userFrame = useFrame;
         handler.repeat = repeatCount == 0;
         handler.repeatCount = repeatCount;
@@ -180,7 +180,7 @@ class TimerManager extends SingtonClass {
      */
     public remove(method: Function, methodObj: any): void {
         for (var i: number = 0; i < this._count; i++) {
-            var handler: TimerHandler = this._handlers[i];
+            var handler: TimerHandlerData = this._handlers[i];
             if (handler.method == method && handler.methodObj == methodObj && this._delHandlers.indexOf(handler) == -1) {
                 this._delHandlers.push(handler);
                 break;
@@ -194,7 +194,7 @@ class TimerManager extends SingtonClass {
      */
     public removeAll(methodObj: any): void {
         for (var i: number = 0; i < this._count; i++) {
-            var handler: TimerHandler = this._handlers[i];
+            var handler: TimerHandlerData = this._handlers[i];
             if (handler.methodObj == methodObj && this._delHandlers.indexOf(handler) == -1) {
                 this._delHandlers.push(handler);
             }
@@ -209,7 +209,7 @@ class TimerManager extends SingtonClass {
      */
     public isExists(method: Function, methodObj: any): boolean {
         for (var i: number = 0; i < this._count; i++) {
-            var handler: TimerHandler = this._handlers[i];
+            var handler: TimerHandlerData = this._handlers[i];
             if (handler.method == method && handler.methodObj == methodObj && this._delHandlers.indexOf(handler) == -1) {
                 return true;
             }
@@ -239,7 +239,7 @@ class TimerManager extends SingtonClass {
         this._currTime = egret.getTimer();
         var gap = this._currTime - this._pauseTime;
         for (var i: number = 0; i < this._count; i++) {
-            var handler: TimerHandler = this._handlers[i];
+            var handler: TimerHandlerData = this._handlers[i];
             handler.dealTime += gap;
             if (!handler.userFrame) {
                 handler.exeTime += gap;
@@ -249,7 +249,7 @@ class TimerManager extends SingtonClass {
 }
 
 
-class TimerHandler {
+class TimerHandlerData {
     /**执行间隔*/
     public delay: number = 0;
     /**是否重复执行*/
