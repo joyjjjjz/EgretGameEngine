@@ -2,7 +2,7 @@ class ViewManager extends SingtonClass {
     /**
      * 已注册的UI
      */
-    private _views: any;
+    private _views: {};
 
     /**
      * 开启中UI
