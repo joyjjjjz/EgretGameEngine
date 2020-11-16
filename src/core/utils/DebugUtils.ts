@@ -5,7 +5,7 @@
 class DebugUtils extends SingtonClass {
     private _isOpen: boolean;
     private _startTimes: any;
-    private _threshold: number = 3;
+    private _threshold: number = 13;
 
     public constructor() {
         super();
