@@ -114,7 +114,30 @@ class RpgGameView extends BaseSpriteView {
         executor.execute();
     }
 
+    public showBitmapNumber(gameObj: RpgGameObject, changeHp: number, txtColor: number = 0xFF0000): void {
+        let singleInst: BitmapNumber = BitmapNumber.getSingtonInstance()
+        let hpTxt = singleInst.createNumPic(changeHp, 'red');
+        hpTxt.width = 100;
+        hpTxt.height = 20;
+        hpTxt.x = gameObj.x;
+        hpTxt.y = gameObj.y - 150;
+        hpTxt.alpha = 1;
+        hpTxt.scaleX = 0.3;
+        hpTxt.scaleY = 0.3;
+        App.AnchorUtils.setAnchorX(hpTxt, 0.5);
+        this.gameEffectLayer.addChild(hpTxt);
+
+        egret.Tween.get(hpTxt).to({"y": gameObj.y - 250, "alpha": 0}, 1000).call(function () {
+            App.DisplayUtils.removeFromParent(hpTxt);
+            ObjectPool.push(hpTxt);
+        })
+    }
+
     public showHpChange(gameObj: RpgGameObject, changeHp: number, txtColor: number = 0xFF0000): void {
+        if (txtColor != 0x00FF00){
+            return this.showBitmapNumber(gameObj, changeHp, txtColor);
+        }
+        
         var hpTxt: egret.TextField = ObjectPool.pop("egret.TextField");
         hpTxt.size = 25;
         hpTxt.textColor = txtColor;
