@@ -115,13 +115,19 @@ class BitmapNumber extends SingtonClass {
 
     private getTexture(num:string, type:string):egret.Texture {
         let url = "resource/font/" + type + num + '.png';
-        RES.getResByUrl(url, function(texture:egret.Texture):void {
-            let test = 1;
-            test += 1;
-            url;
-        }, this, RES.ResourceItem.TYPE_IMAGE);
-        
-        return RES.getRes(url);
+
+        let resTexture: egret.Texture;
+        if(false)
+        {
+            RES.getResByUrl(url, function(texture:egret.Texture):void {
+                url;
+            }, this, RES.ResourceItem.TYPE_IMAGE);
+            resTexture = RES.getRes(url);
+        }else{
+            let key = type + num + '_png';
+            resTexture = RES.getRes(key);
+        }
+        return resTexture;
     }
 
     private getBitmap():egret.Bitmap {
