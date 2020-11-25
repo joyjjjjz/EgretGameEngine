@@ -47,6 +47,6 @@
 		<e:Image id="factoryBtn" source="icon_factory" x="110" y="148"/>
 		<e:Image id="moreBtn" source="icon_more" x="150" y="149"/>
 	</e:Group>
-	<ns1:Menu id="menu" x="78" y="216" skinName="MenuSkin" visible="true"/>
-	<e:ToggleButton id="menuBtn" label="切换按钮" skinName="MenuButtonSkin" x="14" y="237"/>
+	<ns1:Menu id="menu" x="78" y="216" skinName="MenuSkin" visible="false" locked="true"/>
+	<e:ToggleButton id="menuBtn" label="切换按钮" skinName="MenuButtonSkin" x="14" y="237" visible="true"/>
 </e:Skin>
