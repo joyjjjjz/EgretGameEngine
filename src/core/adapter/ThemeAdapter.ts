@@ -26,10 +26,7 @@
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //////////////////////////////////////////////////////////////////////////////////////
-
-
-class ThemeAdapter implements eui.IThemeAdapter {
-
+export class ThemeAdapter implements eui.IThemeAdapter {
     /**
      * 解析主题
      * @param url 待解析的主题url
@@ -91,7 +88,15 @@ class ThemeAdapter implements eui.IThemeAdapter {
         }
     }
 }
-
-declare var generateEUI: { paths: string[], skins: any }
-declare var generateEUI2: { paths: string[], skins: any }
-declare var generateJSON: { paths: string[], skins: any }
+export declare var generateEUI: {
+    paths: string[];
+    skins: any;
+};
+export declare var generateEUI2: {
+    paths: string[];
+    skins: any;
+};
+export declare var generateJSON: {
+    paths: string[];
+    skins: any;
+};

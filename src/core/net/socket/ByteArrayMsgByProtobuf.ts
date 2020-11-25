@@ -1,11 +1,13 @@
+import { ByteArrayMsg } from "./ByteArrayMsg";
+import { App } from "../../App";
+import { Log } from "../../utils/Log";
 /**
  * Created by yangsong on 15-3-25.
  */
-class ByteArrayMsgByProtobuf extends ByteArrayMsg {
+export class ByteArrayMsgByProtobuf extends ByteArrayMsg {
     private msgClass: any = null;
     private protoConfig: any = null;
     private protoConfigSymmetry: any = null;
-
     /**
      * 构造函数
      */
@@ -21,7 +23,6 @@ class ByteArrayMsgByProtobuf extends ByteArrayMsg {
             this.protoConfigSymmetry[value] = key;
         }
     }
-
     /**
      * 获取msgID对应的类
      * @param key
@@ -35,7 +36,6 @@ class ByteArrayMsgByProtobuf extends ByteArrayMsg {
         }
         return cls;
     }
-
     /**
      * 获取msgID
      * @param key
@@ -44,7 +44,6 @@ class ByteArrayMsgByProtobuf extends ByteArrayMsg {
     private getMsgID(key: string): number {
         return this.protoConfigSymmetry[key];
     }
-
     /**
      * 获取msgKey
      * @param msgId
@@ -53,7 +52,6 @@ class ByteArrayMsgByProtobuf extends ByteArrayMsg {
     private getMsgKey(msgId: number) {
         return this.protoConfig[msgId];
     }
-
     /**
      * 消息解析
      * @param msg
@@ -64,7 +62,6 @@ class ByteArrayMsgByProtobuf extends ByteArrayMsg {
         if (msg.bytesAvailable >= len) {
             var bytes: egret.ByteArray = new egret.ByteArray();
             msg.readBytes(bytes, 0, len);
-
             var obj: any = {};
             obj.key = this.getMsgKey(msgID);
             App.DebugUtils.start("Protobuf Decode");
@@ -75,7 +72,6 @@ class ByteArrayMsgByProtobuf extends ByteArrayMsg {
         }
         return null;
     }
-
     /**
      * 消息封装
      * @param msg
@@ -85,12 +81,10 @@ class ByteArrayMsgByProtobuf extends ByteArrayMsg {
         var msgClass = this.getMsgClass(msg.key);
         var msgBody = msgClass.fromObject(msg.body);
         var msgBuffer = msgClass.encode(msgBody).finish();
-
         App.DebugUtils.start("Protobuf Encode");
         var bodyBytes: egret.ByteArray = new egret.ByteArray(msgBuffer);
         App.DebugUtils.stop("Protobuf Encode");
         Log.debug("发送数据：", "[" + msgID + " " + msg.key + "]", msg.body);
-
         var sendMsg: egret.ByteArray = new egret.ByteArray();
         sendMsg.writeShort(msgID);
         sendMsg.writeShort(bodyBytes.length);

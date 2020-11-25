@@ -2,17 +2,15 @@
  * Created by yangsong on 2014/11/22.
  * 对象池类
  */
-class ObjectPool {
+export class ObjectPool {
     private static _content: any = {};
     private _objs: Array<any>;
-
     /**
      * 构造函数
      */
     public constructor() {
         this._objs = new Array<any>();
     }
-
     /**
      * 放回一个对象
      * @param obj
@@ -20,7 +18,6 @@ class ObjectPool {
     public pushObj(obj: any): void {
         this._objs.push(obj);
     }
-
     /**
      * 取出一个对象
      * @returns {*}
@@ -28,11 +25,11 @@ class ObjectPool {
     public popObj(): any {
         if (this._objs.length > 0) {
             return this._objs.pop();
-        } else {
+        }
+        else {
             return null;
         }
     }
-
     /**
      * 清除所有缓存对象
      */
@@ -41,7 +38,6 @@ class ObjectPool {
             this._objs.pop();
         }
     }
-
     /**
      * 取出一个对象
      * @param classZ Class
@@ -52,32 +48,36 @@ class ObjectPool {
         if (!ObjectPool._content[refKey]) {
             ObjectPool._content[refKey] = [];
         }
-
         var list: Array<any> = ObjectPool._content[refKey];
         if (list.length) {
             return list.pop();
-        } else {
+        }
+        else {
             var classZ: any = egret.getDefinitionByName(refKey);
             var argsLen: number = args.length;
             var obj: any;
             if (argsLen == 0) {
                 obj = new classZ();
-            } else if (argsLen == 1) {
+            }
+            else if (argsLen == 1) {
                 obj = new classZ(args[0]);
-            } else if (argsLen == 2) {
+            }
+            else if (argsLen == 2) {
                 obj = new classZ(args[0], args[1]);
-            } else if (argsLen == 3) {
+            }
+            else if (argsLen == 3) {
                 obj = new classZ(args[0], args[1], args[2]);
-            } else if (argsLen == 4) {
+            }
+            else if (argsLen == 4) {
                 obj = new classZ(args[0], args[1], args[2], args[3]);
-            } else if (argsLen == 5) {
+            }
+            else if (argsLen == 5) {
                 obj = new classZ(args[0], args[1], args[2], args[3], args[4]);
             }
             obj.ObjectPoolKey = refKey;
             return obj;
         }
     }
-
     /**
      * 取出一个对象
      * @param refKey Class
@@ -88,7 +88,6 @@ class ObjectPool {
         if (!ObjectPool._content[refKey]) {
             ObjectPool._content[refKey] = [];
         }
-
         var obj: any;
         var list: Array<any> = ObjectPool._content[refKey];
         if (list.length) {
@@ -108,7 +107,6 @@ class ObjectPool {
         }
         return obj;
     }
-
     /**
      * 放入一个对象
      * @param obj
@@ -118,24 +116,20 @@ class ObjectPool {
         if (obj == null) {
             return false;
         }
-
         var refKey: any = obj.ObjectPoolKey;
         //保证只有pop出来的对象可以放进来，或者是已经清除的无法放入
         if (!ObjectPool._content[refKey]) {
             return false;
         }
-
         ObjectPool._content[refKey].push(obj);
         return true;
     }
-
     /**
      * 清除所有对象
      */
     public static clear(): void {
         ObjectPool._content = {};
     }
-
     /**
      * 清除某一类对象
      * @param classZ Class
@@ -153,7 +147,6 @@ class ObjectPool {
         ObjectPool._content[refKey] = null;
         delete ObjectPool._content[refKey];
     }
-
     /**
      * 缓存中对象统一执行一个函数
      * @param classZ Class
@@ -164,7 +157,6 @@ class ObjectPool {
         if (list == null) {
             return;
         }
-
         var i: number = 0;
         var len: number = list.length;
         for (i; i < len; i++) {

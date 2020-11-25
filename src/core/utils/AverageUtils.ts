@@ -2,13 +2,11 @@
  * Created by yangsong on 15-8-19.
  * 平均数工具类
  */
-class AverageUtils {
-
+export class AverageUtils {
     private maxNum: number;
     private nums: Array<number> = [];
     private numsLen: number = 0;
     private numSum: number = 0;
-
     /**
      * 构造函数
      * @param $maxNum 参与计算的最大值
@@ -16,7 +14,6 @@ class AverageUtils {
     public constructor($maxNum: number = 10) {
         this.maxNum = $maxNum;
     }
-
     /**
      * 加入一个值
      * @param value
@@ -30,7 +27,6 @@ class AverageUtils {
         this.numSum += value;
         this.numsLen++;
     }
-
     /**
      * 获取平均值
      * @returns {number}
@@ -38,7 +34,6 @@ class AverageUtils {
     public getValue(): number {
         return this.numSum / this.numsLen;
     }
-
     /**
      * 清空
      */

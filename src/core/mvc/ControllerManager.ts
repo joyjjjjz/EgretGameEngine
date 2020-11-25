@@ -1,8 +1,12 @@
+import { SingtonClass } from "../base/SingtonClass";
+import { BaseController } from "./controller/BaseController";
+import { Log } from "../utils/Log";
+import { BaseModel } from "./model/BaseModel";
 /**
  * Created by yangsong on 2014/11/22.
  * Controller管理类
  */
-class ControllerManager extends SingtonClass {
+export class ControllerManager extends SingtonClass {
     private _modules: any;
 
     /**

@@ -1,11 +1,16 @@
+import { App } from './../../App';
+import { SingtonClass } from "../../base/SingtonClass";
+import { BaseMsg } from "./BaseMsg";
+import { SocketConst } from "./SocketConst";
+import { Log } from "../../utils/Log";
+import { ByteArrayMsg } from "./ByteArrayMsg";
 /**
  * Created by yangsong on 2014/11/25.
  * Socket类
  */
-class Socket extends SingtonClass {
+export class Socket extends SingtonClass {
     private _needReconnect: boolean = false;
     private _maxReconnectCount = 10;
-
     private _reconnectCount: number = 0;
     private _connectFlag: boolean;
     private _host: string;
@@ -13,14 +18,12 @@ class Socket extends SingtonClass {
     private _socket: egret.WebSocket;
     private _msg: BaseMsg;
     private _isConnecting: boolean;
-
     /**
      * 构造函数
      */
     public constructor() {
         super();
     }
-
     /**
      * 添加事件监听
      */
@@ -30,7 +33,6 @@ class Socket extends SingtonClass {
         this._socket.addEventListener(egret.Event.CLOSE, this.onSocketClose, this);
         this._socket.addEventListener(egret.IOErrorEvent.IO_ERROR, this.onSocketError, this);
     }
-
     /**
      * 移除事件监听
      */
@@ -40,49 +42,45 @@ class Socket extends SingtonClass {
         this._socket.removeEventListener(egret.Event.CLOSE, this.onSocketClose, this);
         this._socket.removeEventListener(egret.IOErrorEvent.IO_ERROR, this.onSocketError, this);
     }
-
     /**
      * 服务器连接成功
      */
     private onSocketOpen(): void {
         this._reconnectCount = 0;
         this._isConnecting = true;
-
         if (this._connectFlag && this._needReconnect) {
             App.MessageCenter.dispatch(SocketConst.SOCKET_RECONNECT);
-        } else {
+        }
+        else {
             App.MessageCenter.dispatch(SocketConst.SOCKET_CONNECT);
         }
-
         this._connectFlag = true;
     }
-
     /**
      * 服务器断开连接
      */
     private onSocketClose(): void {
         this._isConnecting = false;
-
         if (this._needReconnect) {
             App.MessageCenter.dispatch(SocketConst.SOCKET_START_RECONNECT);
             this.reconnect();
-        } else {
+        }
+        else {
             App.MessageCenter.dispatch(SocketConst.SOCKET_CLOSE);
         }
     }
-
     /**
      * 服务器连接错误
      */
     private onSocketError(): void {
         if (this._needReconnect) {
             this.reconnect();
-        } else {
+        }
+        else {
             App.MessageCenter.dispatch(SocketConst.SOCKET_NOCONNECT);
         }
         this._isConnecting = false;
     }
-
     /**
      * 收到服务器消息
      * @param e
@@ -90,7 +88,6 @@ class Socket extends SingtonClass {
     private onReceiveMessage(e: egret.Event): void {
         this._msg.receive(this._socket);
     }
-
     /**
      * 初始化服务区地址
      * @param host IP
@@ -102,7 +99,6 @@ class Socket extends SingtonClass {
         this._port = port;
         this._msg = msg;
     }
-
     /**
      * 开始Socket连接
      */
@@ -121,7 +117,6 @@ class Socket extends SingtonClass {
         this.addEvents();
         this._socket.connect(this._host, this._port);
     }
-
     /**
      * 重新连接
      */
@@ -130,16 +125,17 @@ class Socket extends SingtonClass {
         this._reconnectCount++;
         if (this._reconnectCount < this._maxReconnectCount) {
             this.connect();
-        } else {
+        }
+        else {
             this._reconnectCount = 0;
             if (this._connectFlag) {
                 App.MessageCenter.dispatch(SocketConst.SOCKET_CLOSE);
-            } else {
+            }
+            else {
                 App.MessageCenter.dispatch(SocketConst.SOCKET_NOCONNECT);
             }
         }
     }
-
     /**
      * 发送消息到服务器
      * @param msg
@@ -147,7 +143,6 @@ class Socket extends SingtonClass {
     public send(msg: any): void {
         this._msg.send(this._socket, msg);
     }
-
     /**
      * 关闭Socket连接
      */
@@ -155,7 +150,6 @@ class Socket extends SingtonClass {
         this._connectFlag = false;
         this.closeCurrentSocket();
     }
-
     /**
      * 清理当前的Socket连接
      */
@@ -165,7 +159,6 @@ class Socket extends SingtonClass {
         this._socket = null;
         this._isConnecting = false;
     }
-
     /**
      * Socket是否在连接中
      * @returns {boolean}
@@ -173,7 +166,6 @@ class Socket extends SingtonClass {
     public isConnecting(): boolean {
         return this._isConnecting;
     }
-
     /**
      * Debug信息
      * @param str
@@ -181,5 +173,4 @@ class Socket extends SingtonClass {
     private debugInfo(str: String): void {
         App.MessageCenter.dispatch(SocketConst.SOCKET_DEBUG_INFO, str);
     }
-
 }

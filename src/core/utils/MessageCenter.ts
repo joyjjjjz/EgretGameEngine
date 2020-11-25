@@ -1,13 +1,16 @@
+import { App } from './../App';
+import { SingtonClass } from "../base/SingtonClass";
+import { ObjectPool } from "./ObjectPool";
+import { Log } from "./Log";
 /**
  * Created by yangsong on 2014/11/23.
  * 服务端返回消息处理
  */
-class MessageCenter extends SingtonClass {
+export class MessageCenter extends SingtonClass {
     private dict: any;
     private eVec: Array<MessageVo>;
     private lastRunTime: number;
     private type: number;
-
     /**
      * 构造函数
      * @param type 0:使用分帧处理 1:及时执行
@@ -22,7 +25,6 @@ class MessageCenter extends SingtonClass {
             App.TimerManager.doFrame(1, 0, this.run, this);
         }
     }
-
     /**
      * 清空处理
      */
@@ -30,7 +32,6 @@ class MessageCenter extends SingtonClass {
         this.dict = {};
         this.eVec.splice(0);
     }
-
     /**
      * 添加消息监听
      * @param type 消息唯一标识
@@ -44,7 +45,6 @@ class MessageCenter extends SingtonClass {
             arr = new Array<any>();
             this.dict[type] = arr;
         }
-
         //检测是否已经存在
         var i: number = 0;
         var len: number = arr.length;
@@ -53,10 +53,8 @@ class MessageCenter extends SingtonClass {
                 return;
             }
         }
-
         arr.push([listener, listenerObj]);
     }
-
     /**
      * 移除消息监听
      * @param type 消息唯一标识
@@ -68,7 +66,6 @@ class MessageCenter extends SingtonClass {
         if (arr == null) {
             return;
         }
-
         var i: number = 0;
         var len: number = arr.length;
         for (i; i < len; i++) {
@@ -77,13 +74,11 @@ class MessageCenter extends SingtonClass {
                 break;
             }
         }
-
         if (arr.length == 0) {
             this.dict[type] = null;
             delete this.dict[type];
         }
     }
-
     /**
      * 移除某一对象的所有监听
      * @param listenerObj 侦听函数所属对象
@@ -99,14 +94,12 @@ class MessageCenter extends SingtonClass {
                     j--;
                 }
             }
-
             if (arr.length == 0) {
                 this.dict[type] = null;
                 delete this.dict[type];
             }
         }
     }
-
     /**
      * 触发消息
      * @param type 消息唯一标识
@@ -117,7 +110,6 @@ class MessageCenter extends SingtonClass {
         if (this.dict[type] == null) {
             return;
         }
-
         var vo: MessageVo = ObjectPool.pop("MessageVo");
         vo.type = type;
         vo.param = param;
@@ -131,7 +123,6 @@ class MessageCenter extends SingtonClass {
             Log.warn("MessageCenter未实现的类型");
         }
     }
-
     /**
      * 运行
      *
@@ -144,7 +135,8 @@ class MessageCenter extends SingtonClass {
             while (this.eVec.length > 0) {
                 this.dealMsg(this.eVec.shift());
             }
-        } else {
+        }
+        else {
             while (this.eVec.length > 0) {
                 this.dealMsg(this.eVec.shift());
                 if ((egret.getTimer() - currTime) > 5) {
@@ -153,7 +145,6 @@ class MessageCenter extends SingtonClass {
             }
         }
     }
-
     /**
      * 处理一条消息
      * @param msgVo
@@ -175,7 +166,6 @@ class MessageCenter extends SingtonClass {
         msgVo.dispose();
         ObjectPool.push(msgVo);
     }
-
     /**
      * 判断指定类型的事件是否注册了监听
      * @param type 事件类型
@@ -184,16 +174,13 @@ class MessageCenter extends SingtonClass {
         return this.dict[type] != undefined;
     }
 }
-
-class MessageVo {
+export class MessageVo {
     public type: string;
     public param: any[];
-
     public constructor() {
     }
-
     public dispose(): void {
-        this.type = null
+        this.type = null;
         this.param = null;
     }
 }

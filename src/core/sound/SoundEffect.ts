@@ -1,19 +1,19 @@
+import { BaseSound } from "./BaseSound";
+import { ISoundEffect } from "./ISoundEffect";
 /**
  * Created by yangsong on 15-1-14.
  * 音效类
  */
-class SoundEffect extends BaseSound implements ISoundEffect {
+export class SoundEffect extends BaseSound implements ISoundEffect {
     private _volume: number;
     private _soundLoops: any = {};
     private _soundChannels: any = {};
-
     /**
      * 构造函数
      */
     public constructor() {
         super();
     }
-
     /**
      * 播放一个音效
      * @param effectName
@@ -22,11 +22,11 @@ class SoundEffect extends BaseSound implements ISoundEffect {
         var sound: egret.Sound = this.getSound(effectName);
         if (sound) {
             this.playSound(effectName, sound, loops);
-        } else {
+        }
+        else {
             this._soundLoops[effectName] = loops;
         }
     }
-
     /**
      * 播放
      * @param sound
@@ -36,10 +36,8 @@ class SoundEffect extends BaseSound implements ISoundEffect {
         channel.volume = this._volume;
         channel["name"] = effectName;
         channel.addEventListener(egret.Event.SOUND_COMPLETE, this.onPlayComplete, this);
-
         this._soundChannels[channel["name"]] = channel;
     }
-
     /**
      * 播放完成
      */
@@ -47,7 +45,6 @@ class SoundEffect extends BaseSound implements ISoundEffect {
         var channel: egret.SoundChannel = e.currentTarget;
         this.destroyChannel(channel);
     }
-
     /**
      * 销毁channel
      */
@@ -56,7 +53,6 @@ class SoundEffect extends BaseSound implements ISoundEffect {
         channel.removeEventListener(egret.Event.SOUND_COMPLETE, this.onPlayComplete, this);
         delete this._soundChannels[channel["name"]];
     }
-
     /**
      * 播放一个音效
      * @param effectName
@@ -67,7 +63,6 @@ class SoundEffect extends BaseSound implements ISoundEffect {
             this.destroyChannel(channel);
         }
     }
-
     /**
      * 设置音量
      * @param volume
@@ -75,8 +70,6 @@ class SoundEffect extends BaseSound implements ISoundEffect {
     public setVolume(volume: number): void {
         this._volume = volume;
     }
-
-
     /**
      * 资源加载完成后处理播放
      * @param key

@@ -1,8 +1,9 @@
+import { SingtonClass } from "../base/SingtonClass";
 /**
  * Created by yangsong on 2014/11/22.
  * 数学计算工具类
  */
-class MathUtils extends SingtonClass {
+export class MathUtils extends SingtonClass {
     /**
      * 弧度制转换为角度值
      * @param radian 弧度制
@@ -11,7 +12,6 @@ class MathUtils extends SingtonClass {
     public getAngle(radian: number): number {
         return 180 * radian / Math.PI;
     }
-
     /**
      * 角度值转换为弧度制
      * @param angle
@@ -19,7 +19,6 @@ class MathUtils extends SingtonClass {
     public getRadian(angle: number): number {
         return angle / 180 * Math.PI;
     }
-
     /**
      * 获取两点间弧度
      * @param p1X
@@ -33,7 +32,6 @@ class MathUtils extends SingtonClass {
         var ydis: number = p2Y - p1Y;
         return Math.atan2(ydis, xdis);
     }
-
     /**
      * 获取两点间距离
      * @param p1X

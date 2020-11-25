@@ -1,12 +1,13 @@
+import { App } from './../App';
+import { SingtonClass } from "../base/SingtonClass";
 /**
  * Created by yangsong on 15-1-12.
  * 通用工具类
  */
-class CommonUtils extends SingtonClass {
+export class CommonUtils extends SingtonClass {
     public constructor() {
         super();
     }
-
     /**
      * 给字体添加描边
      * @param lable      文字
@@ -17,7 +18,6 @@ class CommonUtils extends SingtonClass {
         lable.strokeColor = color;
         lable.stroke = width;
     }
-
     /**
      * 深度复制
      * @param _data
@@ -40,21 +40,18 @@ class CommonUtils extends SingtonClass {
         }
         return newObj;
     }
-
     /**
      * 锁屏
      */
     public lock(): void {
         App.StageUtils.setTouchChildren(false);
     }
-
     /**
      * 解屏
      */
     public unlock(): void {
         App.StageUtils.setTouchChildren(true);
     }
-
     /**
      * 万字的显示
      * @param label
@@ -73,7 +70,6 @@ class CommonUtils extends SingtonClass {
         }
         label.text = str;
     };
-
     /**
      * int64转number
      * @param obj

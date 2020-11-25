@@ -1,8 +1,12 @@
+import { App } from './../App';
+import { SingtonClass } from "../base/SingtonClass";
+import { Log } from "./Log";
+import { ObjectPool } from "./ObjectPool";
 /**
  * Created by yangsong on 2014/11/23.
  * Timer管理器
  */
-class TimerManager extends SingtonClass {
+export class TimerManager extends SingtonClass {
     private _handlers: Array<TimerHandlerData>;
     private _delHandlers: Array<TimerHandlerData>;
     private _currTime: number;
@@ -11,7 +15,6 @@ class TimerManager extends SingtonClass {
     private _timeScale: number;
     private _isPause: boolean;
     private _pauseTime: number;
-
     /**
      * 构造函数
      */
@@ -23,10 +26,8 @@ class TimerManager extends SingtonClass {
         this._currFrame = 0;
         this._count = 0;
         this._timeScale = 1;
-
         egret.Ticker.getInstance().register(this.onEnterFrame, this);
     }
-
     /**
      * 设置时间参数
      * @param timeScale
@@ -34,7 +35,6 @@ class TimerManager extends SingtonClass {
     public setTimeScale(timeScale: number): void {
         this._timeScale = timeScale;
     }
-
     /**
      * 每帧执行函数
      * @param frameTime
@@ -64,7 +64,8 @@ class TimerManager extends SingtonClass {
                 if (!handler.repeat) {
                     if (handler.repeatCount > 1) {
                         handler.repeatCount--;
-                    } else {
+                    }
+                    else {
                         if (handler.complateMethod) {
                             handler.complateMethod.apply(handler.complateMethodObj);
                         }
@@ -77,7 +78,6 @@ class TimerManager extends SingtonClass {
         }
         App.DebugUtils.stop("TimerManager:");
     }
-
     private removeHandle(handler: TimerHandlerData): void {
         var i = this._handlers.indexOf(handler);
         if (i == -1) {
@@ -88,16 +88,13 @@ class TimerManager extends SingtonClass {
         ObjectPool.push(handler);
         this._count--;
     }
-
     private create(useFrame: boolean, delay: number, repeatCount: number, method: Function, methodObj: any, complateMethod: Function, complateMethodObj: any): void {
         //参数监测
         if (delay < 0 || repeatCount < 0 || method == null) {
             return;
         }
-
         //先删除相同函数的计时
         this.remove(method, methodObj);
-
         //创建
         var handler: TimerHandlerData = ObjectPool.pop("TimerHandlerData");
         handler.userFrame = useFrame;
@@ -113,7 +110,6 @@ class TimerManager extends SingtonClass {
         this._handlers.push(handler);
         this._count++;
     }
-
     /**
      * 在指定的延迟（以毫秒为单位）后运行指定的函数。
      * @param delay 执行间隔:毫秒
@@ -123,7 +119,6 @@ class TimerManager extends SingtonClass {
     public setTimeOut(delay: number, method: Function, methodObj: any): void {
         this.doTimer(delay, 1, method, methodObj);
     }
-
     /**
      * 在指定的帧后运行指定的函数。
      * @param delay 执行间隔:帧频
@@ -133,7 +128,6 @@ class TimerManager extends SingtonClass {
     public setFrameOut(delay: number, method: Function, methodObj: any): void {
         this.doFrame(delay, 1, method, methodObj);
     }
-
     /**
      *
      * 定时执行
@@ -148,7 +142,6 @@ class TimerManager extends SingtonClass {
     public doTimer(delay: number, repeatCount: number, method: Function, methodObj: any, complateMethod: Function = null, complateMethodObj: any = null): void {
         this.create(false, delay, repeatCount, method, methodObj, complateMethod, complateMethodObj);
     }
-
     /**
      *
      * 定时执行
@@ -163,7 +156,6 @@ class TimerManager extends SingtonClass {
     public doFrame(delay: number, repeatCount: number, method: Function, methodObj: any, complateMethod: Function = null, complateMethodObj: any = null): void {
         this.create(true, delay, repeatCount, method, methodObj, complateMethod, complateMethodObj);
     }
-
     /**
      * 定时器执行数量
      * @return
@@ -172,7 +164,6 @@ class TimerManager extends SingtonClass {
     public get count(): number {
         return this._count;
     }
-
     /**
      * 清理
      * @param method 要移除的函数
@@ -187,7 +178,6 @@ class TimerManager extends SingtonClass {
             }
         }
     }
-
     /**
      * 清理
      * @param methodObj 要移除的函数对应的对象
@@ -200,7 +190,6 @@ class TimerManager extends SingtonClass {
             }
         }
     }
-
     /**
      * 检测是否已经存在
      * @param method
@@ -216,7 +205,6 @@ class TimerManager extends SingtonClass {
         }
         return false;
     }
-
     /**
      * 暂停
      */
@@ -227,7 +215,6 @@ class TimerManager extends SingtonClass {
         this._isPause = true;
         this._pauseTime = egret.getTimer();
     }
-
     /**
      * 从暂停中恢复
      */
@@ -247,9 +234,7 @@ class TimerManager extends SingtonClass {
         }
     }
 }
-
-
-class TimerHandlerData {
+export class TimerHandlerData {
     /**执行间隔*/
     public delay: number = 0;
     /**是否重复执行*/
@@ -270,7 +255,6 @@ class TimerHandlerData {
     public complateMethodObj: any;
     /**上次的执行时间*/
     public dealTime: number = 0;
-
     /**清理*/
     public clear(): void {
         this.method = null;

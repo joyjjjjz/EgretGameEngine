@@ -1,8 +1,11 @@
+import { GuideMaskBackgroud } from "./GuideMaskBackgroud";
+import { StarlingSwfUtils } from "../../starlingswf/game/StarlingSwfUtils";
+import { App } from "../../App";
 /**
  * Created by yangsong on 14-12-2.
  * GuideView
  */
-class GuideView extends egret.Sprite {
+export class GuideView extends egret.Sprite {
     private _bg: GuideMaskBackgroud;
     private _obj: egret.DisplayObject;
     private _data: any;

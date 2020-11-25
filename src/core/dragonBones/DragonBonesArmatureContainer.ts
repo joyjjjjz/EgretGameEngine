@@ -1,8 +1,11 @@
+import { DragonBonesArmature } from "./DragonBonesArmature";
+import { Log } from "../utils/Log";
+import { App } from "../App";
 /**
  * Created by yangsong on 15-1-16.
  * DragonBonesArmature容器类，用于一个动画使用多个DragonBonesArmature的情况
  */
-class DragonBonesArmatureContainer extends egret.DisplayObjectContainer {
+export class DragonBonesArmatureContainer extends egret.DisplayObjectContainer {
     private armatures: Array<DragonBonesArmature>;
     private actions: any;
     private currArmatureIndex: number;

@@ -1,7 +1,7 @@
 /**
  * Created by yangsong on 15-1-26.
  */
-class Keyboard {
+export class Keyboard {
     public static LEFT:number = 37;
     public static RIGHT:number = 39;
     public static UP:number = 38;

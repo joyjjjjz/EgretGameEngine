@@ -2,10 +2,9 @@
  * Created by yangsong on 2014/11/23.
  * 百分比类
  */
-class Percent {
+export class Percent {
     public currentValue: number;
     public totalValue: number;
-
     /**
      * 构造函数
      * @param $currentValue 当前值
@@ -15,7 +14,6 @@ class Percent {
         this.currentValue = $currentValue;
         this.totalValue = $totalValue;
     }
-
     /**
      * 计算当前百分比
      * @returns {number}
@@ -23,7 +21,6 @@ class Percent {
     public computePercent(): number {
         return this.currentValue / this.totalValue * 100;
     }
-
     /**
      * 计算当前比例
      * @returns {number}
@@ -31,7 +28,6 @@ class Percent {
     public computeRate(): number {
         return this.currentValue / this.totalValue;
     }
-
     /**
      * 反转
      * @returns {Percent}
@@ -40,7 +36,6 @@ class Percent {
         this.currentValue = this.totalValue - this.currentValue;
         return this;
     }
-
     /**
      * 复制
      * @returns {Percent}
@@ -48,7 +43,6 @@ class Percent {
     public copy(): Percent {
         return new Percent(this.currentValue, this.totalValue);
     }
-
     /**
      * 计算百分比反转
      * @returns {number}
@@ -56,7 +50,6 @@ class Percent {
     public computePercentReverse(): number {
         return (this.totalValue - this.currentValue) / this.totalValue * 100;
     }
-
     /**
      * 计算比例反转
      * @returns {number}

@@ -1,11 +1,12 @@
+import { App } from './../App';
+import { SingtonClass } from "../base/SingtonClass";
 /**
  * Created by yangsong on 15-1-26.
  * 键盘工具类
  */
-class KeyboardUtils extends SingtonClass {
+export class KeyboardUtils extends SingtonClass {
     private key_ups: Array<any>;
     private key_downs: Array<any>;
-
     /**
      * 构造函数
      */
@@ -13,7 +14,6 @@ class KeyboardUtils extends SingtonClass {
         super();
         this.key_ups = new Array<any>();
         this.key_downs = new Array<any>();
-
         if (App.DeviceUtils.IsHtml5) {
             var self: any = this;
             document.addEventListener("keyup", function (e): void {
@@ -22,26 +22,26 @@ class KeyboardUtils extends SingtonClass {
                     var target: any = self.key_ups[i][1];
                     if (target) {
                         func.call(target, e["keyCode"]);
-                    } else {
+                    }
+                    else {
                         func(e["keyCode"]);
                     }
                 }
             });
-
             document.addEventListener("keydown", function (e): void {
                 for (var i: number = 0, len = self.key_downs.length; i < len; i++) {
                     var func: Function = self.key_downs[i][0];
                     var target: any = self.key_downs[i][1];
                     if (target) {
                         func.call(target, e["keyCode"]);
-                    } else {
+                    }
+                    else {
                         func(e["keyCode"]);
                     }
                 }
             });
         }
     }
-
     /**
      * 添加KeyUp事件
      * @param callback 回调函数
@@ -50,7 +50,6 @@ class KeyboardUtils extends SingtonClass {
     public addKeyUp(callback: Function, target: any): void {
         this.key_ups.push([callback, target]);
     }
-
     /**
      * 添加KeyDown事件
      * @param callback 回调函数
@@ -59,7 +58,6 @@ class KeyboardUtils extends SingtonClass {
     public addKeyDown(callback: Function, target: any): void {
         this.key_downs.push([callback, target]);
     }
-
     /**
      * 移除KeyUp事件
      * @param callback 回调函数
@@ -73,7 +71,6 @@ class KeyboardUtils extends SingtonClass {
             }
         }
     }
-
     /**
      * 移除KeyDown事件
      * @param callback 回调函数

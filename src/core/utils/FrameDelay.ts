@@ -1,18 +1,16 @@
+import { App } from "../App";
 /**
  * Created by yangsong on 2014/11/23.
  * 帧延迟处理
  */
-class FrameDelay {
+export class FrameDelay {
     private func: Function;
     private thisObj: any;
-
     /**
      * 构造函数
      */
     public constructor() {
-
     }
-
     /**
      * 延迟处理
      * @param delayFrame 延迟帧数
@@ -26,7 +24,6 @@ class FrameDelay {
             App.TimerManager.doFrame(delayFrame, 1, this.listener_enterFrame, this);
         }, this);
     }
-
     private listener_enterFrame(): void {
         this.func.call(this.thisObj);
     }

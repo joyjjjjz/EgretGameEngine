@@ -2,7 +2,7 @@
  * Created by yangsong on 14/12/18.
  * 基类
  */
-class SingtonClass {
+export class SingtonClass {
     public constructor() {
 
     }

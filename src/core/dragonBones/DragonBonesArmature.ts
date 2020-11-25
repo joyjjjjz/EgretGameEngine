@@ -2,7 +2,7 @@
  * Created by yangsong on 15-1-14.
  * Armature封装类
  */
-class DragonBonesArmature extends egret.DisplayObjectContainer {
+export class DragonBonesArmature extends egret.DisplayObjectContainer {
     private _armature: dragonBones.Armature;
     private _clock: dragonBones.WorldClock;
 
@@ -38,16 +38,16 @@ class DragonBonesArmature extends egret.DisplayObjectContainer {
      * 添加事件监听
      */
     private addListeners(): void {
-        this._armature.eventDispatcher.addEvent(dragonBones.EventObject.COMPLETE, this.completeHandler, this);
-        this._armature.eventDispatcher.addEvent(dragonBones.EventObject.FRAME_EVENT, this.frameHandler, this);
+        // this._armature.eventDispatcher.addEvent(dragonBones.EventObject.COMPLETE, this.completeHandler, this);
+        // this._armature.eventDispatcher.addEvent(dragonBones.EventObject.FRAME_EVENT, this.frameHandler, this);
     }
 
     /**
      * 移除事件监听
      */
     private removeListeners(): void {
-        this._armature.eventDispatcher.removeEvent(dragonBones.EventObject.COMPLETE, this.completeHandler, this);
-        this._armature.eventDispatcher.removeEvent(dragonBones.EventObject.FRAME_EVENT, this.frameHandler, this);
+        // this._armature.eventDispatcher.removeEvent(dragonBones.EventObject.COMPLETE, this.completeHandler, this);
+        // this._armature.eventDispatcher.removeEvent(dragonBones.EventObject.FRAME_EVENT, this.frameHandler, this);
     }
 
     /**
@@ -288,28 +288,25 @@ class DragonBonesArmature extends egret.DisplayObjectContainer {
     public getPlayName(): string {
         return this._playName;
     }
-
     /**
      * 获取骨骼的display
      * @param bone
      * @returns {function(): any}
      */
-    public getBoneDisplay(bone: dragonBones.Bone): egret.DisplayObject {
-        return bone.slot.display;
-    }
-
+    // public getBoneDisplay(bone: dragonBones.Bone): egret.DisplayObject {
+    //     return bone.slot.display;
+    // }
     /**
      * 替换骨骼插件
      * @param boneName
      * @param displayObject
      */
-    public changeBone(boneName: string, displayObject: egret.DisplayObject): void {
-        var bone: dragonBones.Bone = this.getBone(boneName);
-        if (bone) {
-            bone.slot.setDisplay(displayObject);
-        }
-    }
-
+    // public changeBone(boneName: string, displayObject: egret.DisplayObject): void {
+    //     var bone: dragonBones.Bone = this.getBone(boneName);
+    //     if (bone) {
+    //         bone.slot.setDisplay(displayObject);
+    //     }
+    // }
     /**
      * 替换插槽
      */

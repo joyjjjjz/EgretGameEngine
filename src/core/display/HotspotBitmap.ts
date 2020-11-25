@@ -1,7 +1,7 @@
 /**
  * Created by Saco on 2014/12/1.
  */
-class HotspotBitmap extends egret.Bitmap {
+export class HotspotBitmap extends egret.Bitmap {
     private _hotspot:any[];
 
     public constructor() {

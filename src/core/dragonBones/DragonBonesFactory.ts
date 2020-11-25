@@ -1,8 +1,13 @@
+import { App } from './../App';
+import { SingtonClass } from "../base/SingtonClass";
+import { AverageUtils } from "../utils/AverageUtils";
+import { DragonBonesArmature } from "./DragonBonesArmature";
+import { Log } from "../utils/Log";
 /**
  * Created by egret on 15-1-14.
  * DragonBones工厂类
  */
-class DragonBonesFactory extends SingtonClass {
+export class DragonBonesFactory extends SingtonClass {
     private averageUtils: AverageUtils;
     private factory: dragonBones.EgretFactory;
     private isPlay: boolean;

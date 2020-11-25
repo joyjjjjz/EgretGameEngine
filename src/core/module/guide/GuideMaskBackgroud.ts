@@ -2,7 +2,7 @@
  * Created by yangsong on 14-12-2.
  * 引导背景层，实现的是一个类似不规则遮罩的功能
  */
-class GuideMaskBackgroud extends egret.Sprite {
+export class GuideMaskBackgroud extends egret.Sprite {
     private _bgs:Array<egret.Shape>;
     private _stageWidth:number = 0;
     private _stageHeight:number = 0;

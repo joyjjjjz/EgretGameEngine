@@ -1,7 +1,8 @@
+import { App } from "../App";
 /**
  * Created by yangsong on 2014/11/22.
  */
-class Log {
+export class Log {
     /**
      * Debug
      */
@@ -12,7 +13,6 @@ class Log {
         let message = "[Debug]" + optionalParams.shift();
         console.log(message, ...optionalParams);
     }
-
     /**
      * Info
      */
@@ -20,7 +20,6 @@ class Log {
         let message = "[Info]" + optionalParams.shift();
         console.log(message, ...optionalParams);
     }
-
     /**
      * Warn
      */
@@ -28,7 +27,6 @@ class Log {
         let message = "[Warn]" + optionalParams.shift();
         console.warn(message, ...optionalParams);
     }
-
     /**
      * Error
      */

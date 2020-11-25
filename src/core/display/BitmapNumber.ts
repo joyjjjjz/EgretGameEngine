@@ -1,3 +1,4 @@
+import { SingtonClass } from "../base/SingtonClass";
 /**
  * 素材需要提前加载好
  * 素材命名规则：类型_数值（有类型是因为一般会同时有几种数字图片，比如大小号或不同颜色）
@@ -8,7 +9,7 @@
  *
  * Created by Saco on 2014/8/1.
  */
-class BitmapNumber extends SingtonClass {
+export class BitmapNumber extends SingtonClass {
     private _imgPool:egret.Bitmap[];
     private _containerPool:egret.DisplayObjectContainer[];
 

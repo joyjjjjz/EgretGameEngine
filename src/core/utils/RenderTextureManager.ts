@@ -1,27 +1,26 @@
+import { App } from './../App';
+import { SingtonClass } from "../base/SingtonClass";
 /**
  * cacheAsBitmap的替代方案，解决QQ浏览器在1G内存的机器上最多能使用20个Canvas的限制
  */
-class RenderTextureManager extends SingtonClass {
+export class RenderTextureManager extends SingtonClass {
     private _pool: Array<egret.RenderTexture>;
     private _maxNum: number;
     private _useNum: number;
-
     /**
      * 构造函数
      */
     public constructor() {
         super();
-
         this._pool = [];
         this._useNum = 0;
-
         if (this.isLowerQQBrowser()) {
             this._maxNum = 18;
-        } else {
+        }
+        else {
             this._maxNum = -1;
         }
     }
-
     /**
      * 是否是低端手机的QQ浏览器
      * @returns {boolean}
@@ -36,7 +35,6 @@ class RenderTextureManager extends SingtonClass {
                 "vivo X3t",
                 "GT-I9100"
             ];
-
             var lower: boolean = false;
             for (var i = 0, len = arr.length; i < len; i++) {
                 if (navigator.userAgent.indexOf(arr[i]) != -1) {
@@ -48,7 +46,6 @@ class RenderTextureManager extends SingtonClass {
         }
         return false;
     }
-
     /**
      * 获取一个egret.RenderTexture
      * @returns {egret.RenderTexture}
@@ -63,7 +60,6 @@ class RenderTextureManager extends SingtonClass {
         }
         return result;
     }
-
     /**
      * 回收一个egret.RenderTexture
      * @param texture
@@ -76,7 +72,6 @@ class RenderTextureManager extends SingtonClass {
                 break;
             }
         }
-
         if (!exists) {
             this._pool.push(texture);
         }

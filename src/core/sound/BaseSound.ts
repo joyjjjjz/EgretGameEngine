@@ -1,21 +1,20 @@
+import { App } from "../App";
+import { SoundManager } from "./SoundManager";
 /**
  * Created by yangsong on 15-1-14.
  * Sound基类
  */
-class BaseSound {
+export class BaseSound {
     public _cache: any;
     public _loadingCache: Array<string>;
-
     /**
      * 构造函数
      */
     public constructor() {
         this._cache = {};
         this._loadingCache = new Array<string>();
-
         App.TimerManager.doTimer(1 * 60 * 1000, 0, this.dealSoundTimer, this);
     }
-
     /**
      * 处理音乐文件的清理
      */
@@ -33,7 +32,6 @@ class BaseSound {
             }
         }
     }
-
     /**
      * 获取Sound
      * @param key
@@ -45,17 +43,16 @@ class BaseSound {
             if (this._cache[key]) {
                 this._cache[key] = egret.getTimer();
             }
-        } else {
+        }
+        else {
             if (this._loadingCache.indexOf(key) != -1) {
                 return null;
             }
-
             this._loadingCache.push(key);
             RES.getResAsync(key, this.onResourceLoadComplete, this);
         }
         return sound;
     }
-
     /**
      * 资源加载完成
      * @param event
@@ -68,15 +65,12 @@ class BaseSound {
             this.loadedPlay(key);
         }
     }
-
     /**
      * 资源加载完成后处理播放，子类重写
      * @param key
      */
     public loadedPlay(key: string): void {
-
     }
-
     /**
      * 检测一个文件是否要清除，子类重写
      * @param key

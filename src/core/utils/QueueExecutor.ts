@@ -2,18 +2,16 @@
  * Created by yangsong on 15-8-19.
  * 队列处理
  */
-class QueueExecutor {
+export class QueueExecutor {
     private _callBack: Function;
     private _callBackTarget: any;
     private _functions: Array<Array<any>>;
-
     /**
      * 构造函数
      */
     public constructor() {
         this._functions = new Array();
     }
-
     /**
      * 设置全部执行完成处理函数
      * @param callBack 此队列处理完成执行函数
@@ -23,7 +21,6 @@ class QueueExecutor {
         this._callBack = callBack;
         this._callBackTarget = callBackTarget;
     }
-
     /**
      * 注册需要队列处理的函数
      * @param $func 函数
@@ -32,14 +29,12 @@ class QueueExecutor {
     public regist($func: Function, $thisObj: any): void {
         this._functions.push([$func, $thisObj]);
     }
-
     /**
      * 开始执行
      */
     public start(): void {
         this.next();
     }
-
     /**
      * 执行下一个
      */
@@ -47,7 +42,6 @@ class QueueExecutor {
         if (!this._functions) {
             return;
         }
-
         if (this._functions.length == 0) {
             if (this._callBack) {
                 this._callBack.call(this._callBackTarget);

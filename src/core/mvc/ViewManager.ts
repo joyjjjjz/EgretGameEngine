@@ -1,14 +1,16 @@
-class ViewManager extends SingtonClass {
+import { App } from './../App';
+import { SingtonClass } from "../base/SingtonClass";
+import { IBaseView } from "./view/IBaseView";
+import { Log } from "../utils/Log";
+export class ViewManager extends SingtonClass {
     /**
      * 已注册的UI
      */
     private _views: {};
-
     /**
      * 开启中UI
      */
     private _opens: Array<number>;
-
     /**
      * 构造函数
      */
@@ -17,7 +19,6 @@ class ViewManager extends SingtonClass {
         this._views = {};
         this._opens = [];
     }
-
     /**
      * 清空处理
      */
@@ -25,7 +26,6 @@ class ViewManager extends SingtonClass {
         this.closeAll();
         this._views = {};
     }
-
     /**
      * 面板注册
      * @param key 面板唯一标识
@@ -40,7 +40,6 @@ class ViewManager extends SingtonClass {
         }
         this._views[key] = view;
     }
-
     /**
      * 面板解除注册
      * @param key
@@ -52,7 +51,6 @@ class ViewManager extends SingtonClass {
         this._views[key] = null;
         delete this._views[key];
     }
-
     /**
      * 销毁一个面板
      * @param key 唯一标识
@@ -67,7 +65,6 @@ class ViewManager extends SingtonClass {
         }
         this.register(key, newView);
     }
-
     /**
      * 开启面板
      * @param key 面板唯一标识
@@ -80,15 +77,15 @@ class ViewManager extends SingtonClass {
             Log.warn("UI_" + key + "不存在");
             return;
         }
-
         if (view.isShow()) {
-            view.open(...param);;
+            view.open(...param);
+            ;
             return view;
         }
-
         if (view.isInit()) {
             view.addToParent();
-            view.open(...param);;
+            view.open(...param);
+            ;
         }
         else {
             App.EasyLoading.showLoading();
@@ -103,11 +100,9 @@ class ViewManager extends SingtonClass {
                 view.setVisible(true);
             }.bind(this));
         }
-
         this._opens.push(key);
         return view;
     }
-
     /**
      * 关闭面板
      * @param key 面板唯一标识
@@ -118,21 +113,17 @@ class ViewManager extends SingtonClass {
         if (!this.isShow(key)) {
             return;
         }
-
         var view: IBaseView = this.getView(key);
         if (view == null) {
             return;
         }
-
         var viewIndex = this._opens.indexOf(key);
         if (viewIndex >= 0) {
             this._opens.splice(viewIndex, 1);
         }
-
         view.removeFromParent();
         view.close(...param);
     }
-
     /**
      * 关闭面板
      * @param view
@@ -148,7 +139,6 @@ class ViewManager extends SingtonClass {
             }
         }
     }
-
     /**
      * 根据唯一标识获取一个UI对象
      * @param key
@@ -157,7 +147,6 @@ class ViewManager extends SingtonClass {
     public getView(key: number): IBaseView {
         return this._views[key];
     }
-
     /**
      * 关闭所有开启中的UI
      */
@@ -166,7 +155,6 @@ class ViewManager extends SingtonClass {
             this.close(this._opens[0]);
         }
     }
-
     /**
      * 当前ui打开数量
      * @returns {number}
@@ -174,7 +162,6 @@ class ViewManager extends SingtonClass {
     public currOpenNum(): number {
         return this._opens.length;
     }
-
     /**
      * 检测一个UI是否开启中
      * @param key

@@ -1,11 +1,11 @@
+import { SingtonClass } from "../base/SingtonClass";
 /**
  * Tween工具类
  */
-class TweenUtils extends SingtonClass {
+export class TweenUtils extends SingtonClass {
     public constructor() {
         super();
     }
-
     /**
      * 暂停所有的Tween
      */
@@ -16,7 +16,6 @@ class TweenUtils extends SingtonClass {
             tween_2.paused = true;
         }
     }
-
     /**
      * 从暂停中恢复
      */

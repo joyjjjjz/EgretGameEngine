@@ -1,15 +1,15 @@
+import { SingtonClass } from "../base/SingtonClass";
 /**
  * Created by yangsong on 2014/12/3.
  * Stage相关工具类
  */
-class StageUtils extends SingtonClass {
+export class StageUtils extends SingtonClass {
     /**
      * 构造函数
      */
     public constructor() {
         super();
     }
-
     /**
      * 获取游戏的高度
      * @returns {number}
@@ -17,7 +17,6 @@ class StageUtils extends SingtonClass {
     public getHeight(): number {
         return this.getStage().stageHeight;
     }
-
     /**
      * 获取游戏宽度
      * @returns {number}
@@ -25,7 +24,6 @@ class StageUtils extends SingtonClass {
     public getWidth(): number {
         return this.getStage().stageWidth;
     }
-
     /**
      * 指定此对象的子项以及子孙项是否接收鼠标/触摸事件
      * @param value
@@ -33,7 +31,6 @@ class StageUtils extends SingtonClass {
     public setTouchChildren(value: boolean): void {
         this.getStage().touchChildren = value;
     }
-
     /**
      * 设置同时可触发几个点击事件，默认为2
      * @param value
@@ -41,7 +38,6 @@ class StageUtils extends SingtonClass {
     public setMaxTouches(value: number): void {
         this.getStage().maxTouches = value;
     }
-
     /**
      * 设置帧频
      * @param value
@@ -49,7 +45,6 @@ class StageUtils extends SingtonClass {
     public setFrameRate(value: number): void {
         this.getStage().frameRate = value;
     }
-
     /**
      * 设置适配方式
      * @param value
@@ -57,7 +52,6 @@ class StageUtils extends SingtonClass {
     public setScaleMode(value: string): void {
         this.getStage().scaleMode = value;
     }
-
     /**
      * 获取游戏Stage对象
      * @returns {egret.MainContext}
@@ -65,24 +59,20 @@ class StageUtils extends SingtonClass {
     public getStage(): egret.Stage {
         return egret.MainContext.instance.stage;
     }
-
     /**
      * 开启全屏适配方案
      */
     private designWidth: number;
     private designHeight: number;
     private resizeCallback: Function;
-
     public startFullscreenAdaptation(designWidth: number, designHeight: number, resizeCallback: Function): void {
         this.designWidth = designWidth;
         this.designHeight = designHeight;
         this.resizeCallback = resizeCallback;
         this.stageOnResize();
     }
-
     private stageOnResize(): void {
         this.getStage().removeEventListener(egret.Event.RESIZE, this.stageOnResize, this);
-
         var designWidth: number = this.designWidth;
         var designHeight: number = this.designHeight;
         var clientWidth: number = window.innerWidth;
@@ -99,9 +89,7 @@ class StageUtils extends SingtonClass {
         this.getStage().setContentSize(designWidth, designHeight);
         // console.log(a, b, c);
         // console.log(designWidth, designHeight);
-
         this.resizeCallback && this.resizeCallback();
-
         this.getStage().addEventListener(egret.Event.RESIZE, this.stageOnResize, this);
     }
 }

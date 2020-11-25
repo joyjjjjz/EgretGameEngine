@@ -1,12 +1,12 @@
+import { FrameDelay } from "./FrameDelay";
 /**
  * Created by yangsong on 2014/11/23.
  * 分帧处理
  */
-class FrameExecutor {
+export class FrameExecutor {
     private delayFrame: number;
     private functions: Array<Array<any>>;
     private frameDelay: FrameDelay;
-
     /**
      * 构造函数
      */
@@ -15,7 +15,6 @@ class FrameExecutor {
         this.frameDelay = new FrameDelay();
         this.functions = new Array();
     }
-
     /**
      * 注册要分帧处理的函数
      * @param $func 函数
@@ -24,7 +23,6 @@ class FrameExecutor {
     public regist($func: Function, $thisObj: any): void {
         this.functions.push([$func, $thisObj]);
     }
-
     /**
      * 执行
      */

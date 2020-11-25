@@ -1,25 +1,22 @@
+import { App } from "../../App";
 /**
  * Created by yangsong on 15-1-7.
  * Scene基类
  */
-class BaseScene {
+export class BaseScene {
     //当前所有Layer
     private _layers: Array<egret.DisplayObjectContainer>;
-
     /**
      * 构造函数
      */
     public constructor() {
         this._layers = new Array<egret.DisplayObjectContainer>();
     }
-
     /**
      * 进入Scene调用
      */
     public onEnter(): void {
-
     }
-
     /**
      * 退出Scene调用
      */
@@ -27,7 +24,6 @@ class BaseScene {
         App.ViewManager.closeAll();
         this.removeAllLayer();
     }
-
     /**
      * 添加一个Layer到舞台
      * @param layer
@@ -36,7 +32,6 @@ class BaseScene {
         App.StageUtils.getStage().addChild(layer);
         this._layers.push(layer);
     }
-
     /**
      * 添加一个Layer到舞台
      * @param layer
@@ -45,7 +40,6 @@ class BaseScene {
         App.StageUtils.getStage().addChildAt(layer, index);
         this._layers.push(layer);
     }
-
     /**
      * 在舞台移除一个Layer
      * @param layer
@@ -54,7 +48,6 @@ class BaseScene {
         App.StageUtils.getStage().removeChild(layer);
         this._layers.splice(this._layers.indexOf(layer), 1);
     }
-
     /**
      * Layer中移除所有
      * @param layer
@@ -62,7 +55,6 @@ class BaseScene {
     public layerRemoveAllChild(layer: egret.DisplayObjectContainer): void {
         layer.removeChildren();
     }
-
     /**
      * 移除所有Layer
      */

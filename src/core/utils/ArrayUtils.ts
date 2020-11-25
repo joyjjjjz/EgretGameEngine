@@ -1,7 +1,8 @@
+import { SingtonClass } from "../base/SingtonClass";
 /**
  * Created by egret on 15-8-7.
  */
-class ArrayUtils extends SingtonClass {
+export class ArrayUtils extends SingtonClass {
     /**
      * 遍历操作
      * @param arr

@@ -1,7 +1,8 @@
+import { SingtonClass } from "../base/SingtonClass";
 /**
  * Created by yangsong on 2014/11/23.
  */
-class RandomUtils extends SingtonClass {
+export class RandomUtils extends SingtonClass {
     /**
      * 获取一个区间的随机数
      * @param $from 最小值
@@ -14,7 +15,6 @@ class RandomUtils extends SingtonClass {
         var range: number = $end - $from;
         return $from + Math.random() * range;
     }
-
     /**
      * 获取一个区间的随机数(整数)
      * @param $from 最小值
@@ -24,7 +24,6 @@ class RandomUtils extends SingtonClass {
     public limitInteger($from: number, $end: number): number {
         return Math.floor(this.limit($from, $end + 1));
     }
-
     /**
      * 在一个数组中随机获取一个元素
      * @param arr 数组

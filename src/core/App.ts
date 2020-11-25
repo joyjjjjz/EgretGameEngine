@@ -1,7 +1,44 @@
+import { BitmapNumber } from "./display/BitmapNumber";
+import { DragonBonesFactory } from "./dragonBones/DragonBonesFactory";
+import { GuideUtils } from "./module/guide/GuideUtils";
+import { EasyLoading } from "./module/loading/EasyLoading";
+import { ControllerManager } from "./mvc/ControllerManager";
+import { ViewManager } from "./mvc/ViewManager";
+import { Http } from "./net/http/Http";
+import { Socket } from "./net/socket/Socket";
+import { SceneManager } from "./scene/manager/SceneManager";
+import { SoundManager } from "./sound/SoundManager";
+import { StarlingSwfFactory } from "./starlingswf/game/StarlingSwfFactory";
+import { AnchorUtils } from "./utils/AnchorUtils";
+import { ArrayUtils } from "./utils/ArrayUtils";
+import { CommonUtils } from "./utils/CommonUtils";
+import { DateUtils } from "./utils/DateUtils";
+import { DebugUtils } from "./utils/DebugUtils";
+import { DelayOptManager } from "./utils/DelayOptManager";
+import { DeviceUtils } from "./utils/DeviceUtils";
+import { DisplayUtils } from "./utils/DisplayUtils";
+import { EffectUtils } from "./utils/EffectUtils";
+import { EgretExpandUtils } from "./utils/EgretExpandUtils";
+import { KeyboardUtils } from "./utils/KeyboardUtils";
+import { LocationPropertyUtils } from "./utils/LocationPropertyUtils";
+import { MathUtils } from "./utils/MathUtils";
+import { MessageCenter } from "./utils/MessageCenter";
+import { RandomUtils } from "./utils/RandomUtils";
+import { RenderTextureManager } from "./utils/RenderTextureManager";
+import { ResourceUtils } from "./utils/ResourceUtils";
+import { RockerUtils } from "./utils/RockerUtils";
+import { ShockUtils } from "./utils/ShockUtils";
+import { StageUtils } from "./utils/StageUtils";
+import { StringUtils } from "./utils/StringUtils";
+import { TextFlowMaker } from "./utils/TextFlowMaker";
+import { TimerManager } from "./utils/TimerManager";
+import { TouchEventHook } from "./utils/TouchEventHook";
+import { TweenUtils } from "./utils/TweenUtils";
+import { ByteArrayMsgByProtobuf } from "./net/socket/ByteArrayMsgByProtobuf";
 /**
  * Created by yangsong on 2014/11/22.
  */
-class App {
+export class App {
     /**
      * 请求服务器使用的用户标识
      * @type {string}

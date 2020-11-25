@@ -1,12 +1,12 @@
+import { App } from "../App";
 /**
  * Created by yangsong on 15-11-4.
  */
-class AllAsyncExecutor {
+export class AllAsyncExecutor {
     private _callBack: Function;
     private _callBackTarget: any;
     private _functions: Array<Array<any>>;
     private _complateNum: number;
-
     /**
      * 构造函数
      */
@@ -14,7 +14,6 @@ class AllAsyncExecutor {
         this._functions = new Array();
         this._complateNum = 0;
     }
-
     /**
      * 设置全部执行完成处理函数
      * @param callBack 此队列处理完成执行函数
@@ -24,7 +23,6 @@ class AllAsyncExecutor {
         this._callBack = callBack;
         this._callBackTarget = callBackTarget;
     }
-
     /**
      * 注册需要队列处理的函数
      * @param $func 函数
@@ -33,7 +31,6 @@ class AllAsyncExecutor {
     public regist($func: Function, $thisObj: any): void {
         this._functions.push([$func, $thisObj]);
     }
-
     /**
      * 开始执行
      */
@@ -42,7 +39,6 @@ class AllAsyncExecutor {
             arr[0].call(arr[1]);
         }, this);
     }
-
     /**
      * 执行完成
      */
@@ -50,7 +46,6 @@ class AllAsyncExecutor {
         if (!this._functions) {
             return;
         }
-
         this._complateNum++;
         if (this._complateNum == this._functions.length) {
             if (this._callBack) {

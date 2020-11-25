@@ -1,12 +1,14 @@
+import { ISoundEffect } from "./ISoundEffect";
+import { App } from "../App";
+import { SoundManager } from "./SoundManager";
 /**
  * Created by yangsong on 18-11-21.
  * 音效类(微信小游戏专用)
  */
-class SoundEffectWx implements ISoundEffect {
+export class SoundEffectWx implements ISoundEffect {
     private _wx: any;
     private _volume: number;
     private _cache: any;
-
     /**
      * 构造函数
      */
@@ -15,7 +17,6 @@ class SoundEffectWx implements ISoundEffect {
         this._cache = {};
         App.TimerManager.doTimer(1 * 60 * 1000, 0, this.dealSoundTimer, this);
     }
-
     /**
      * 处理音乐文件的清理
      */
@@ -35,7 +36,6 @@ class SoundEffectWx implements ISoundEffect {
             }
         }
     }
-
     /**
      * 检测一个文件是否要清除
      * @param key
@@ -44,7 +44,6 @@ class SoundEffectWx implements ISoundEffect {
     private checkCanClear(key: string): boolean {
         return true;
     }
-
     /**
      * 获取Sound
      * @param effectName
@@ -60,7 +59,6 @@ class SoundEffectWx implements ISoundEffect {
         audio.useTime = egret.getTimer();
         return audio;
     }
-
     /**
      * 播放一个音效
      * @param effectName
@@ -72,7 +70,6 @@ class SoundEffectWx implements ISoundEffect {
         audio.startTime = 0;
         audio.play();
     }
-
     /**
      * 播放一个音效
      * @param effectName
@@ -83,7 +80,6 @@ class SoundEffectWx implements ISoundEffect {
             audio.stop();
         }
     }
-
     /**
      * 设置音量
      * @param volume

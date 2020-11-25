@@ -1,11 +1,11 @@
+import { SingtonClass } from "../base/SingtonClass";
 /**
  * Created by Saco on 2014/12/1.
  */
-class LocationPropertyUtils extends SingtonClass {
+export class LocationPropertyUtils extends SingtonClass {
     public constructor() {
         super();
     }
-
     /*
      * 获取url参数值，没有返回null
      * 不传递paraUrl参数默认获取当前url
@@ -26,7 +26,6 @@ class LocationPropertyUtils extends SingtonClass {
         }
         return null;
     }
-
     /*
      * 给Url参数赋值
      * 不传递paraUrl参数默认获取当前url
@@ -36,7 +35,8 @@ class LocationPropertyUtils extends SingtonClass {
         var urlPara = "&" + url.split("?")[1];
         if (url.indexOf("?") == -1) {
             return url += "?" + paraName + "=" + paraValue;
-        } else {
+        }
+        else {
             var urlPara = url.split("?")[1];
             if (urlPara == "")
                 return url += paraName + "=" + paraValue;
@@ -44,7 +44,8 @@ class LocationPropertyUtils extends SingtonClass {
             var result = regParaKV.exec(urlPara);
             if (!result || result[0] == "") {
                 return url += "&" + paraName + "=" + paraValue;
-            } else {
+            }
+            else {
                 var oldValue = result[0];
                 var regParaKey = new RegExp("\=.*$");
                 var newValue = oldValue.replace(regParaKey, "=" + paraValue);
@@ -52,7 +53,6 @@ class LocationPropertyUtils extends SingtonClass {
             }
         }
     }
-
     /*
      * 检查url中是否包含某参数
      * 这代码有一个例外就是paraName = "undefined", paraUrl中不含"?"会返回true

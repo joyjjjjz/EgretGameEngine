@@ -1,3 +1,5 @@
+import { SingtonClass } from "../base/SingtonClass";
+import { Log } from "./Log";
 /**
  * Created by yangsong on 15-2-11.
  * 资源加载工具类，
@@ -5,30 +7,25 @@
  * 封装Group的加载
  * 增加静默加载机制
  */
-class ResourceUtils extends SingtonClass {
+export class ResourceUtils extends SingtonClass {
     private _configs: Array<any>;
     private _onConfigComplete: Function;
     private _onConfigCompleteTarget: any;
-
     private _groups: any;
     private _groupIndex: number = 0;
     private _itemLoadErrorFunction: Function;
-
     /**
      * 构造函数
      */
     public constructor() {
         super();
-
         this._configs = new Array<any>();
         this._groups = {};
-
         RES.addEventListener(RES.ResourceEvent.GROUP_COMPLETE, this.onResourceLoadComplete, this);
         RES.addEventListener(RES.ResourceEvent.GROUP_PROGRESS, this.onResourceLoadProgress, this);
         RES.addEventListener(RES.ResourceEvent.GROUP_LOAD_ERROR, this.onResourceLoadError, this);
         RES.addEventListener(RES.ResourceEvent.ITEM_LOAD_ERROR, this.onResourceItemLoadError, this);
     }
-
     /**
      * 添加一个配置文件
      * @param jsonPath resource.json路径
@@ -37,7 +34,6 @@ class ResourceUtils extends SingtonClass {
     public addConfig(jsonPath: string, filePath: string): void {
         this._configs.push([jsonPath, filePath]);
     }
-
     /**
      * 开始加载配置文件
      * @param $onConfigComplete 加载完成执行函数
@@ -48,7 +44,6 @@ class ResourceUtils extends SingtonClass {
         this._onConfigCompleteTarget = $onConfigCompleteTarget;
         this.loadNextConfig();
     }
-
     /**
      * 加载
      */
@@ -60,12 +55,10 @@ class ResourceUtils extends SingtonClass {
             this._onConfigCompleteTarget = null;
             return;
         }
-
         var arr: any = this._configs.shift();
         RES.addEventListener(RES.ResourceEvent.CONFIG_COMPLETE, this.onConfigCompleteHandle, this);
         RES.loadConfig(arr[0], arr[1]);
     }
-
     /**
      * 加载完成
      * @param event
@@ -74,7 +67,6 @@ class ResourceUtils extends SingtonClass {
         RES.removeEventListener(RES.ResourceEvent.CONFIG_COMPLETE, this.onConfigCompleteHandle, this);
         this.loadNextConfig();
     }
-
     /**
      * 加载资源组
      * @param $groupName 资源组名称
@@ -86,7 +78,6 @@ class ResourceUtils extends SingtonClass {
         this._groups[$groupName] = [$onResourceLoadComplete, $onResourceLoadProgress, $onResourceLoadTarget];
         RES.loadGroup($groupName);
     }
-
     /**
      * 同时加载多个组
      * @param $groupName 自定义的组名称
@@ -97,9 +88,8 @@ class ResourceUtils extends SingtonClass {
      */
     public loadGroups($groupName: string, $subGroups: Array<any>, $onResourceLoadComplete: Function, $onResourceLoadProgress: Function, $onResourceLoadTarget: any): void {
         RES.createGroup($groupName, $subGroups, true);
-        this.loadGroup($groupName, $onResourceLoadComplete, $onResourceLoadProgress, $onResourceLoadTarget)
+        this.loadGroup($groupName, $onResourceLoadComplete, $onResourceLoadProgress, $onResourceLoadTarget);
     }
-
     /**
      * 静默加载
      * @param $groupName 资源组名称
@@ -114,7 +104,6 @@ class ResourceUtils extends SingtonClass {
         RES.createGroup(useGroupName, $subGroups, true);
         RES.loadGroup(useGroupName, -1);
     }
-
     /**
      * 资源组加载完成
      */
@@ -126,12 +115,10 @@ class ResourceUtils extends SingtonClass {
             if (loadComplete != null) {
                 loadComplete.apply(loadCompleteTarget, [groupName]);
             }
-
             this._groups[groupName] = null;
             delete this._groups[groupName];
         }
     }
-
     /**
      * 资源组加载进度
      */
@@ -145,7 +132,6 @@ class ResourceUtils extends SingtonClass {
             }
         }
     }
-
     /**
      * 资源组加载失败
      * @param event
@@ -154,7 +140,6 @@ class ResourceUtils extends SingtonClass {
         Log.warn(event.groupName + "资源组有资源加载失败");
         this.onResourceLoadComplete(event);
     }
-
     /**
      * 资源加载失败
      * @param event
@@ -165,14 +150,12 @@ class ResourceUtils extends SingtonClass {
             this._itemLoadErrorFunction(event);
         }
     }
-
     /**
      * 注册资源加载失败处理函数
      */
     public registerItemLoadErrorFunction(func: (event: RES.ResourceEvent) => void): void {
         this._itemLoadErrorFunction = func;
     }
-
     /**
      * 混合加载资源组
      * @param $resources 资源数组
@@ -188,7 +171,6 @@ class ResourceUtils extends SingtonClass {
         this._groups[groupName] = [$onResourceLoadComplete, $onResourceLoadProgress, $onResourceLoadTarget];
         RES.loadGroup(groupName);
     }
-
     /**
      * 动态创建加载组
      * @param {string} $groupName
@@ -197,7 +179,6 @@ class ResourceUtils extends SingtonClass {
     public createGroup($groupName: string, resKeys: string[]): void {
         RES.createGroup($groupName, resKeys, true);
     }
-
     /**
      * 动态创建Resource
      * @param {string} resKey
@@ -209,10 +190,9 @@ class ResourceUtils extends SingtonClass {
             name: resKey,
             type: resType,
             url: resUrl
-        }
+        };
         RES.$addResourceData(res);
     }
-
     /**
      * 获取文件的真实路径
      */

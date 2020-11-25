@@ -1,15 +1,15 @@
+import { SingtonClass } from "../base/SingtonClass";
 /**
  * Created by yangsong on 14/12/18.
  * 字符串操作工具类
  */
-class StringUtils extends SingtonClass {
+export class StringUtils extends SingtonClass {
     /**
      * 构造函数
      */
     public constructor() {
         super();
     }
-
     /**
      * 去掉前后空格
      * @param str
@@ -18,7 +18,6 @@ class StringUtils extends SingtonClass {
     public trimSpace(str: string): string {
         return str.replace(/^\s*(.*?)[\s\n]*$/g, '$1');
     }
-
     /**
      * 获取字符串长度，中文为2
      * @param str
@@ -30,13 +29,13 @@ class StringUtils extends SingtonClass {
             var s = strArr[i];
             if (this.isChinese(s)) {
                 length += 2;
-            } else {
+            }
+            else {
                 length += 1;
             }
         }
         return length;
     }
-
     /**
      * 判断一个字符串是否包含中文
      * @param str
@@ -46,7 +45,6 @@ class StringUtils extends SingtonClass {
         var reg = /^.*[\u4E00-\u9FA5]+.*$/;
         return reg.test(str);
     }
-
     /**
      * 格式化字符串 "{0},{1}.format("text0","text1")
      */

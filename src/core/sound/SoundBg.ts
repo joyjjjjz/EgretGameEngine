@@ -1,14 +1,15 @@
+import { BaseSound } from "./BaseSound";
+import { ISoundBg } from "./ISoundBg";
 /**
  * Created by yangsong on 15-1-14.
  * 背景音乐类
  */
-class SoundBg extends BaseSound implements ISoundBg {
+export class SoundBg extends BaseSound implements ISoundBg {
     private _currBg: string;
     private _currSound: egret.Sound;
     private _currSoundChannel: egret.SoundChannel;
     private _volume: number;
     private _pausePosition: number;
-
     /**
      * 构造函数
      */
@@ -16,7 +17,6 @@ class SoundBg extends BaseSound implements ISoundBg {
         super();
         this._currBg = "";
     }
-
     /**
      * 停止当前音乐
      */
@@ -29,7 +29,6 @@ class SoundBg extends BaseSound implements ISoundBg {
         this._currBg = "";
         this._pausePosition = null;
     }
-
     /**
      * 播放某个音乐
      * @param effectName
@@ -44,7 +43,6 @@ class SoundBg extends BaseSound implements ISoundBg {
             this.playSound(sound);
         }
     }
-
     /**
      * 暂停
      */
@@ -52,10 +50,9 @@ class SoundBg extends BaseSound implements ISoundBg {
         if (!this._currSoundChannel) {
             return;
         }
-        this._pausePosition = this._currSoundChannel.position
+        this._pausePosition = this._currSoundChannel.position;
         this._currSoundChannel.stop();
     }
-
     /**
      * 恢复
      */
@@ -69,7 +66,6 @@ class SoundBg extends BaseSound implements ISoundBg {
         this._currSound.play(this._pausePosition);
         this._pausePosition = null;
     }
-
     /**
      * 播放
      * @param sound
@@ -79,7 +75,6 @@ class SoundBg extends BaseSound implements ISoundBg {
         this._currSoundChannel = this._currSound.play();
         this._currSoundChannel.volume = this._volume;
     }
-
     /**
      * 设置音量
      * @param volume
@@ -90,7 +85,6 @@ class SoundBg extends BaseSound implements ISoundBg {
             this._currSoundChannel.volume = this._volume;
         }
     }
-
     /**
      * 资源加载完成后处理播放
      * @param key
@@ -100,7 +94,6 @@ class SoundBg extends BaseSound implements ISoundBg {
             this.playSound(RES.getRes(key));
         }
     }
-
     /**
      * 检测一个文件是否要清除
      * @param key
