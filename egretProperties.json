@@ -1,12 +1,13 @@
 {
-	"engineVersion": "5.2.21",
-	"compilerVersion": "5.2.21",
+	"engineVersion": "5.3.8",
+	"compilerVersion": "5.3.8",
 	"template": {},
 	"target": {
 		"current": "web"
 	},
 	"eui": {
 		"exmlRoot": [
+			"resource/skins",
 			"resource/eui_skins"
 		],
 		"themes": [

@@ -2,6 +2,7 @@
 ///<reference path="api.d.ts"/>
 
 import * as path from 'path';
+import { WebpackBundlePlugin, WebpackDevServerPlugin } from "./plugins/webpack-plugin";
 import { UglifyPlugin, IncrementCompilePlugin, CompilePlugin, ManifestPlugin, ExmlPlugin, EmitResConfigFilePlugin, TextureMergerPlugin } from 'built-in';
 import { WxgamePlugin } from './wxgame/wxgame';
 import { BricksPlugin } from './bricks/bricks';
@@ -26,7 +27,11 @@ const config: ResourceManagerConfig = {
                     //     groupSelector: p => "preload"
                     // }),
                     new ExmlPlugin('debug'), // 非 EUI 项目关闭此设置
-                    new IncrementCompilePlugin(),
+                    new WebpackDevServerPlugin({
+                        libraryType: "debug",
+                        defines: { DEBUG: true, RELEASE: false },
+                        typescript: { mode: "legacy" }
+                    })
                 ]
             }
         }
@@ -36,7 +41,7 @@ const config: ResourceManagerConfig = {
                 outputDir,
                 commands: [
                     new CustomPlugin(),
-                    new CompilePlugin({ libraryType: "release", defines: { DEBUG: false, RELEASE: true } }),
+                    new WebpackBundlePlugin({ libraryType: "release", defines: { DEBUG: false, RELEASE: true } }),
                     new ExmlPlugin('commonjs'), // 非 EUI 项目关闭此设置
                     new UglifyPlugin([{
                         sources: ["main.js"],
