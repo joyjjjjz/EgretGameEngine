@@ -1,29 +1,30 @@
+import { App } from "../../core/App";
+import { ControllerConst } from "../consts/ControllerConst";
+import { LoadingConst } from "../module/loading/LoadingConst";
+import { Log } from "../../core/utils/Log";
+import { SocketConst } from "../../core/net/socket/SocketConst";
 /**
  * Created by yangsong on 15-3-27.
  * ProtoBuf测试
  */
-class ProtoBufTest {
+export class ProtoBufTest {
     public constructor() {
         App.ResourceUtils.loadGroup("preload_core", this.onResourceLoadComplete, this.onResourceLoadProgress, this);
     }
-
     /**
      * 资源组加载完成
      */
     private onResourceLoadComplete(): void {
         App.Init();
-
         this.clientTest();
         // this.socketTest();
     }
-
     /**
      * 资源组加载进度
      */
     private onResourceLoadProgress(itemsLoaded: number, itemsTotal: number): void {
         App.ControllerManager.applyFunc(ControllerConst.Loading, LoadingConst.SetProgress, itemsLoaded, itemsTotal);
     }
-
     private clientTest(): void {
         //创建一条消息
         var msg = simple.user_login_c2s.fromObject({
@@ -31,16 +32,13 @@ class ProtoBufTest {
             tstamp: 2,
             ticket: "yangsong"
         });
-
         //序列化
         var buffer = simple.user_login_c2s.encode(msg).finish();
         Log.debug("序列化数据：", buffer);
-
         //反序列化
         var message = simple.user_login_c2s.decode(buffer);
         Log.debug("反序列化数据：", message);
     }
-
     private socketTest(): void {
         //发送一条消息到服务器
         function send(): void {
@@ -53,7 +51,6 @@ class ProtoBufTest {
             };
             App.Socket.send(msg);
         }
-
         App.Socket.connect();
         App.MessageCenter.addListener(SocketConst.SOCKET_CONNECT, () => {
             Log.debug("与服务器连接上");

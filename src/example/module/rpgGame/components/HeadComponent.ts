@@ -1,23 +1,22 @@
+import { Component } from "./Component";
+import { AvatarComponent } from "./AvatarComponent";
+import { ComponentType } from "./ComponentType";
+import { App } from "../../../../core/App";
 /**
  * Created by yangsong on 2017/10/11.
  */
-class HeadComponent extends Component {
+export class HeadComponent extends Component {
     private nameTxt: egret.TextField;
     private titleTxt: egret.TextField;
-
     public constructor() {
         super();
     }
-
     public start(): void {
         super.start();
-
         var avatarComponent: AvatarComponent = <AvatarComponent>this.entity.getComponent(ComponentType.Avatar);
-
         this.createNameTxt(avatarComponent.body);
         this.createTitleTxt(avatarComponent.body);
     }
-
     private createNameTxt(parent: egret.DisplayObjectContainer): void {
         this.nameTxt = new egret.TextField();
         this.nameTxt.size = 18;
@@ -30,10 +29,8 @@ class HeadComponent extends Component {
         this.nameTxt.text = this.entity.propertyData.name;
         this.nameTxt.y = -160;
         App.AnchorUtils.setAnchorX(this.nameTxt, 0.5);
-
         parent.addChild(this.nameTxt);
     }
-
     private createTitleTxt(parent: egret.DisplayObjectContainer): void {
         this.titleTxt = new egret.TextField();
         this.titleTxt.size = 18;
@@ -46,20 +43,15 @@ class HeadComponent extends Component {
         this.titleTxt.text = this.entity.propertyData.title;
         this.titleTxt.y = -180;
         App.AnchorUtils.setAnchorX(this.titleTxt, 0.5);
-
         parent.addChild(this.titleTxt);
     }
-
     public stop(): void {
         super.stop();
-
         App.DisplayUtils.removeFromParent(this.nameTxt);
         this.nameTxt = null;
-
         App.DisplayUtils.removeFromParent(this.titleTxt);
         this.titleTxt = null;
     }
-
     public update(advancedTime: number): void {
         super.update(advancedTime);
     }

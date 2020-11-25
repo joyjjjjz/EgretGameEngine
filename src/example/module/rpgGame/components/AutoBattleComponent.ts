@@ -1,25 +1,26 @@
+import { Component } from "./Component";
+import { Action } from "../movieClip/RpgMovieClip";
+import { RpgMonster } from "../object/RpgMonster";
+import { App } from "../../../../core/App";
+import { RpgGameData } from "../RpgGameData";
+import { ControlComponent } from "./ControlComponent";
+import { ComponentType } from "./ComponentType";
 /**
  * Created by yangsong on 2017/10/13.
  */
-class AutoBattleComponent extends Component {
-
+export class AutoBattleComponent extends Component {
     public constructor() {
         super();
     }
-
     public start(): void {
         super.start();
-
         this.dealInterval = 500;
     }
-
     public stop(): void {
         super.stop();
     }
-
     public update(advancedTime: number): void {
         super.update(advancedTime);
-
         if (this.entity.action == Action.Stand) {
             if (!this.entity.battleObj) {
                 this.searchBattleObj();
@@ -27,21 +28,19 @@ class AutoBattleComponent extends Component {
             }
         }
     }
-
     private searchBattleObj(): void {
         var list: RpgMonster[] = this.entity.gameView.getMonsters();
         list.forEach(function (monster) {
             monster["dis"] = App.MathUtils.getDistance(monster.col, monster.row, this.entity.col, this.entity.row);
         }.bind(this));
-
         list.sort(function (a, b) {
             if (a["dis"] < b["dis"]) {
                 return -1;
-            } else {
+            }
+            else {
                 return 1;
             }
-        })
-
+        });
         for (var i = 0; i < list.length; i++) {
             var obj = list[i];
             if (obj.propertyData.hp) {
@@ -50,26 +49,24 @@ class AutoBattleComponent extends Component {
             }
         }
     }
-
     private moveToBattleObj(): void {
         if (!this.entity.battleObj) {
             return;
         }
-
         var offsetFlagX: number = 0;
         if (this.entity.x > this.entity.battleObj.x) {
             offsetFlagX = 1;
-        } else if (this.entity.x < this.entity.battleObj.x) {
+        }
+        else if (this.entity.x < this.entity.battleObj.x) {
             offsetFlagX = -1;
         }
-
         var offsetFlagY: number = 0;
         if (this.entity.y > this.entity.battleObj.y) {
             offsetFlagY = 1;
-        } else if (this.entity.y < this.entity.battleObj.y) {
+        }
+        else if (this.entity.y < this.entity.battleObj.y) {
             offsetFlagY = -1;
         }
-
         var endX: number = this.entity.battleObj.x + offsetFlagX * RpgGameData.GameCellWidth;
         var endY: number = this.entity.battleObj.y + offsetFlagY * RpgGameData.GameCellHeight;
         var controlComponent: ControlComponent = <ControlComponent>this.entity.getComponent(ComponentType.Control);

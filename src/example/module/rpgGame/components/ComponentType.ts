@@ -1,7 +1,7 @@
 /**
  * Created by yangsong on 2017/10/19.
  */
-class ComponentType {
+export class ComponentType {
     public static Ai: string = "AiComponent";
     public static Aoi: string = "AoiComponent";
     public static Avatar: string = "AvatarComponent";

@@ -1,7 +1,7 @@
 /**
  * Created by Administrator on 2014/11/23.
  */
-enum ControllerConst{
+export enum ControllerConst {
     Loading = 10000,
     Login,
     Home,
@@ -12,5 +12,5 @@ enum ControllerConst{
     Task,
     Mail,
     Game,
-    RpgGame,
+    RpgGame
 }

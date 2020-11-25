@@ -1,34 +1,32 @@
+import { Component } from "./Component";
+import { PathNode } from "../SilzAstar";
+import { RpgGameUtils } from "../RpgGameUtils";
+import { App } from "../../../../core/App";
 /**
  * Created by yangsong on 2017/10/12.
  */
-class MoveComponent extends Component {
+export class MoveComponent extends Component {
     private endX: number;
     private endY: number;
     private radian: number;
     private distance: number;
     private node: PathNode;
-
     public constructor() {
         super();
     }
-
     public start(): void {
         super.start();
     }
-
     public stop(): void {
         super.stop();
-
         this.endX = null;
         this.endY = null;
         this.radian = null;
         this.distance = null;
         this.node = null;
     }
-
     public update(advancedTime: number): void {
         super.update(advancedTime);
-
         if (this.entity.pathChange) {
             this.entity.pathChange = false;
             if (this.node) {
@@ -37,17 +35,14 @@ class MoveComponent extends Component {
             }
             this.node = null;
         }
-
         if (!this.node) {
             if (!this.entity.path) {
                 return;
             }
-
             if (!this.entity.path.length) {
                 this.entity.path = null;
                 return;
             }
-
             this.nextNode();
             if (this.node) {
                 this.move(advancedTime);
@@ -57,7 +52,6 @@ class MoveComponent extends Component {
             this.move(advancedTime);
         }
     }
-
     private move(advancedTime: number): void {
         var useSpeed: number = this.entity.speed / (1000 / 60) * advancedTime;
         // if (this.distance > useSpeed) {
@@ -89,7 +83,6 @@ class MoveComponent extends Component {
             this.node = null;
         }
     }
-
     private nextNode(): void {
         this.node = this.entity.path.shift();
         var p: egret.Point = RpgGameUtils.convertCellToXY(this.node.x, this.node.y);

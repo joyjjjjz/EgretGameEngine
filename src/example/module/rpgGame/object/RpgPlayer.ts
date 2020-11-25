@@ -1,14 +1,14 @@
+import { RpgGameObject } from "./RpgGameObject";
+import { ComponentType } from "../components/ComponentType";
 /**
  * Created by yangsong on 2017/10/11.
  */
-class RpgPlayer extends RpgGameObject {
+export class RpgPlayer extends RpgGameObject {
     public constructor() {
         super();
     }
-
     public init(data: any): void {
         super.init(data);
-
         this.addComponent(ComponentType.Avatar);
         this.addComponent(ComponentType.AvatarSkill);
         this.addComponent(ComponentType.Head);
@@ -19,7 +19,6 @@ class RpgPlayer extends RpgGameObject {
         this.addComponent(ComponentType.AutoBattle);
         this.addComponent(ComponentType.Battle);
     }
-
     public destory(): void {
         super.destory();
     }

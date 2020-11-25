@@ -1,21 +1,18 @@
-class SilzAstar {
-
+import { RpgGameData } from "./RpgGameData";
+export class SilzAstar {
     /**
      * 寻路方式，8方向和4方向，有效值为8和4
      */
     private WorkMode: number = 8;
-
     private _grid: Grid;
     private _path: PathNode[];
     private _astar: AStar;
-
     /**
      * @param    mapdata        地图数据
      */
     public constructor(mapdata: number[][]) {
         this.makeGrid(mapdata);
     }
-
     /**
      * @param        xnow    当前坐标X(世界坐标)
      * @param        ynow    当前坐标Y(世界坐标)
@@ -28,55 +25,44 @@ class SilzAstar {
         xpos = Math.min(xpos, this._grid.numCols - 1);
         ypos = Math.min(ypos, this._grid.numRows - 1);
         this._grid.setEndNode(xpos, ypos); //1
-
         xnow = Math.floor(xnow / RpgGameData.GameCellWidth);
         ynow = Math.floor(ynow / RpgGameData.GameCellHeight);
         this._grid.setStartNode(xnow, ynow); //2
-
         var time: number = egret.getTimer();
-
         if (this._astar.findPath()) { //3
             // this._astar.floyd();
             // this._path = this._astar.floydPath;
             this._path = this._astar.path;
-
             // time = egret.getTimer() - time;
             // console.log("[SilzAstar]", time + "ms   length:" + this._astar.path.length);
-
             return this._path;
-        } else {
+        }
+        else {
             this._grid.setEndNode(xpos - 1, ypos - 1);
             time = egret.getTimer() - time;
             console.log("[SilzAstar]", time + "ms 找不到");
         }
-
         return null;
     }
-
     private makeGrid(data: number[][]): void {
         var rows: number = data.length;
         var cols: number = data[0].length;
         this._grid = new Grid(cols, rows);
-
         var px: number;
         var py: number;
-
         for (py = 0; py < rows; py++) {
             for (px = 0; px < cols; px++) {
                 this._grid.setWalkable(px, py, data[py][px] == 1);
             }
         }
-
         if (this.WorkMode == 4)
             this._grid.calculateLinks(1);
         else
             this._grid.calculateLinks();
-
         this._astar = new AStar(this._grid);
     }
 }
-
-class AStar {
+export class AStar {
     private _open: BinaryHeap;
     private _grid: Grid;
     private _endNode: PathNode;
@@ -87,17 +73,13 @@ class AStar {
     private _diagCost: number = Math.SQRT2;
     private _nowversion: number = 1;
     private _heuristic: Function;
-
-
     public constructor(grid: Grid) {
         this._grid = grid;
         this._heuristic = this.manhattan;
     }
-
     private justMin(x: any, y: any): boolean {
         return x.f < y.f;
     }
-
     public findPath(): boolean {
         this._endNode = this._grid.endNode;
         this._nowversion++;
@@ -106,7 +88,6 @@ class AStar {
         this._startNode.g = 0;
         return this.search();
     }
-
     public floyd(): void {
         if (this.path == null)
             return;
@@ -120,7 +101,8 @@ class AStar {
                 this.floydVector(tempVector, this._floydPath[i + 1], this._floydPath[i]);
                 if (vector.x == tempVector.x && vector.y == tempVector.y) {
                     this._floydPath.splice(i + 1, 1);
-                } else {
+                }
+                else {
                     vector.x = tempVector.x;
                     vector.y = tempVector.y;
                 }
@@ -140,7 +122,6 @@ class AStar {
             }
         }
     }
-
     private floydCrossAble(n1: PathNode, n2: PathNode): boolean {
         var ps: egret.Point[] = this.bresenhamNodes(new egret.Point(n1.x, n1.y), new egret.Point(n2.x, n2.y));
         for (var i: number = ps.length - 2; i > 0; i--) {
@@ -150,7 +131,6 @@ class AStar {
         }
         return true;
     }
-
     private bresenhamNodes(p1: egret.Point, p2: egret.Point): egret.Point[] {
         var steep: boolean = Math.abs(p2.y - p1.y) > Math.abs(p2.x - p1.x);
         if (steep) {
@@ -169,21 +149,24 @@ class AStar {
         var nowY: number = p1.y + deltay;
         if (steep) {
             ret.push(new egret.Point(p1.y, p1.x));
-        } else {
+        }
+        else {
             ret.push(new egret.Point(p1.x, p1.y));
         }
         while (nowX != p2.x) {
-            var fy: number = Math.floor(nowY)
+            var fy: number = Math.floor(nowY);
             var cy: number = Math.ceil(nowY);
             if (steep) {
                 ret.push(new egret.Point(fy, nowX));
-            } else {
+            }
+            else {
                 ret.push(new egret.Point(nowX, fy));
             }
             if (fy != cy) {
                 if (steep) {
                     ret.push(new egret.Point(cy, nowX));
-                } else {
+                }
+                else {
                     ret.push(new egret.Point(nowX, cy));
                 }
             }
@@ -192,17 +175,16 @@ class AStar {
         }
         if (steep) {
             ret.push(new egret.Point(p2.y, p2.x));
-        } else {
+        }
+        else {
             ret.push(new egret.Point(p2.x, p2.y));
         }
         return ret;
     }
-
     private floydVector(target: PathNode, n1: PathNode, n2: PathNode): void {
         target.x = n1.x - n2.x;
         target.y = n1.y - n2.y;
     }
-
     public search(): boolean {
         var node: PathNode = this._startNode;
         node.version = this._nowversion;
@@ -210,7 +192,7 @@ class AStar {
             var len: number = node.links.length;
             for (var i: number = 0; i < len; i++) {
                 var test: PathNode = node.links[i].node;
-                if(!test.walkable){
+                if (!test.walkable) {
                     continue;
                 }
                 var cost: number = node.links[i].cost;
@@ -224,7 +206,8 @@ class AStar {
                         test.h = h;
                         test.parent = node;
                     }
-                } else {
+                }
+                else {
                     test.f = f;
                     test.g = g;
                     test.h = h;
@@ -232,7 +215,6 @@ class AStar {
                     this._open.ins(test);
                     test.version = this._nowversion;
                 }
-
             }
             if (this._open.a.length == 1) {
                 return false;
@@ -242,7 +224,6 @@ class AStar {
         this.buildPath();
         return true;
     }
-
     private buildPath(): void {
         this._path = [];
         var node: PathNode = this._endNode;
@@ -252,33 +233,26 @@ class AStar {
             this._path.unshift(node);
         }
     }
-
     public get path(): PathNode[] {
         return this._path;
     }
-
     public get floydPath(): PathNode[] {
         return this._floydPath;
     }
-
     public manhattan(node: PathNode): number {
         return Math.abs(node.x - this._endNode.x) + Math.abs(node.y - this._endNode.y);
     }
-
     public manhattan2(node: PathNode): number {
         var dx: number = Math.abs(node.x - this._endNode.x);
         var dy: number = Math.abs(node.y - this._endNode.y);
         return dx + dy + Math.abs(dx - dy) / 1000;
     }
-
     public euclidian(node: PathNode): number {
         var dx: number = node.x - this._endNode.x;
         var dy: number = node.y - this._endNode.y;
         return Math.sqrt(dx * dx + dy * dy);
     }
-
     private TwoOneTwoZero: number = 2 * Math.cos(Math.PI / 3);
-
     public chineseCheckersEuclidian2(node: PathNode): number {
         var y: number = node.y / this.TwoOneTwoZero;
         var x: number = node.x + node.y / 2;
@@ -286,17 +260,14 @@ class AStar {
         var dy: number = y - this._endNode.y / this.TwoOneTwoZero;
         return this.sqrt(dx * dx + dy * dy);
     }
-
     private sqrt(x: number): number {
         return Math.sqrt(x);
     }
-
     public euclidian2(node: PathNode): number {
         var dx: number = node.x - this._endNode.x;
         var dy: number = node.y - this._endNode.y;
         return dx * dx + dy * dy;
     }
-
     public diagonal(node: PathNode): number {
         var dx: number = Math.abs(node.x - this._endNode.x);
         var dy: number = Math.abs(node.y - this._endNode.y);
@@ -305,21 +276,17 @@ class AStar {
         return this._diagCost * diag + this._straightCost * (straight - 2 * diag);
     }
 }
-
-class BinaryHeap {
+export class BinaryHeap {
     public a: any[] = [];
-
     public justMinFun = function (x: any, y: any): boolean {
         return x < y;
     };
-
     public constructor(justMinFun = null) {
         this.a.push(-1);
         if (justMinFun != null) {
             this.justMinFun = justMinFun;
         }
     }
-
     public ins(value: any): void {
         var p: number = this.a.length;
         this.a[p] = value;
@@ -332,7 +299,6 @@ class BinaryHeap {
             pp = p >> 1;
         }
     }
-
     public pop(): any {
         var min: any = this.a[1];
         this.a[1] = this.a[this.a.length - 1];
@@ -344,7 +310,8 @@ class BinaryHeap {
         while (sp1 < l) {
             if (sp2 < l) {
                 var minp: number = this.justMinFun(this.a[sp2], this.a[sp1]) ? sp2 : sp1;
-            } else {
+            }
+            else {
                 minp = sp1;
             }
             if (this.justMinFun(this.a[minp], this.a[p])) {
@@ -354,32 +321,27 @@ class BinaryHeap {
                 p = minp;
                 sp1 = p << 1;
                 sp2 = sp1 + 1;
-            } else {
+            }
+            else {
                 break;
             }
         }
         return min;
     }
 }
-
-class Grid {
-
+export class Grid {
     private _startNode: PathNode;
     private _endNode: PathNode;
     private _nodes: PathNode[][];
     private _numCols: number;
     private _numRows: number;
-
     private type: number;
-
     private _straightCost: number = 1.0;
     private _diagCost: number = Math.SQRT2;
-
     public constructor(numCols: number, numRows: number) {
         this._numCols = numCols;
         this._numRows = numRows;
         this._nodes = [];
-
         for (var i: number = 0; i < this._numCols; i++) {
             this._nodes[i] = [];
             for (var j: number = 0; j < this._numRows; j++) {
@@ -387,7 +349,6 @@ class Grid {
             }
         }
     }
-
     /**
      *
      * @param   type    0八方向 1四方向 2跳棋
@@ -400,11 +361,9 @@ class Grid {
             }
         }
     }
-
     public getType(): number {
         return this.type;
     }
-
     /**
      *
      * @param   node
@@ -442,7 +401,8 @@ class Grid {
                     }
                     if (type == 2) {
                         cost = this._straightCost;
-                    } else {
+                    }
+                    else {
                         cost = this._diagCost;
                     }
                 }
@@ -450,52 +410,40 @@ class Grid {
             }
         }
     }
-
     public getNode(x: number, y: number): PathNode {
         return this._nodes[x][y];
     }
-
     public setEndNode(x: number, y: number): void {
         this._endNode = this._nodes[x][y];
     }
-
     public setStartNode(x: number, y: number): void {
         this._startNode = this._nodes[x][y];
     }
-
     public setWalkable(x: number, y: number, value: boolean): void {
         this._nodes[x][y].walkable = value;
     }
-
     public get endNode(): PathNode {
         return this._endNode;
     }
-
     public get numCols(): number {
         return this._numCols;
     }
-
     public get numRows(): number {
         return this._numRows;
     }
-
     public get startNode(): PathNode {
         return this._startNode;
     }
-
 }
-
-class Link {
+export class Link {
     public node: PathNode;
     public cost: number;
-
     public constructor(node: PathNode, cost: number) {
         this.node = node;
         this.cost = cost;
     }
 }
-
-class PathNode {
+export class PathNode {
     public x: number;
     public y: number;
     public f: number;
@@ -506,13 +454,11 @@ class PathNode {
     //public costMultiplier:number = 1.0;
     public version: number = 1;
     public links: Link[];
-
     //public index:number;
     public constructor(x: number, y: number) {
         this.x = x;
         this.y = y;
     }
-
     public toString(): String {
         return "x:" + this.x + " y:" + this.y;
     }

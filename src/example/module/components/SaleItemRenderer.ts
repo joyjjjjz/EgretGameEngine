@@ -1,17 +1,14 @@
 /**
  * 商品的渲染器
  */
-class SaleItemRenderer extends eui.ItemRenderer {
-    public titleDisplay:eui.Label;
-    public priceDisplay:eui.Label;
-    public timeDisplay:eui.Label;
-    public iconDisplay:eui.Image;
-
+export class SaleItemRenderer extends eui.ItemRenderer {
+    public titleDisplay: eui.Label;
+    public priceDisplay: eui.Label;
+    public timeDisplay: eui.Label;
+    public iconDisplay: eui.Image;
     public constructor() {
         super();
     }
-
-
     public dataChanged() {
         super.dataChanged();
         if (this.titleDisplay) {
@@ -27,8 +24,7 @@ class SaleItemRenderer extends eui.ItemRenderer {
             this.iconDisplay.source = this.data.icon;
         }
     }
-
-    public partAdded(partName:string, instance:any):void {
+    public partAdded(partName: string, instance: any): void {
         super.partAdded(partName, instance);
         if (!this.data)
             return;
