@@ -24,53 +24,55 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
-class Main extends egret.DisplayObjectContainer {
+import { App } from "./core/App";
+import { GameScene } from "./example/scene/GameScene";
+import { LoadingScene } from "./example/scene/LoadingScene";
+import { RpgGameScene } from "./example/scene/RpgGameScene";
+import { UIScene } from "./example/scene/UIScene";
+import { ProtoBufTest } from "./example/test/ProtoBufTest";
+import { RpgTest } from "./example/test/RpgTest";
+import { AssetAdapter } from "./core/adapter/AssetAdapter";
+import { ThemeAdapter } from "./core/adapter/ThemeAdapter";
+import { ControllerConst } from "./example/consts/ControllerConst";
+import { RpgGameConst } from "./example/module/rpgGame/RpgGameConst";
+import { SceneConsts } from "./example/consts/SceneConsts";
+import { LoadingController } from "./example/module/loading/LoadingController";
+export class Main extends egret.DisplayObjectContainer {
     public constructor() {
         super();
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
     }
-
     private onAddToStage(event: egret.Event) {
         this.removeEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
-
         //注入自定义的素材解析器
         egret.registerImplementation("eui.IAssetAdapter", new AssetAdapter());
         egret.registerImplementation("eui.IThemeAdapter", new ThemeAdapter());
-
         //适配方式(全屏适配)
         App.StageUtils.startFullscreenAdaptation(650, 1000, this.onResize);
-
         //初始化
         this.initLifecycle();
         this.initScene();
-
         //加载资源配置文件
         this.loadResConfig();
     }
-
     private initLifecycle(): void {
         egret.lifecycle.addLifecycleListener((context) => {
             // custom lifecycle plugin
-        })
-
+        });
         egret.lifecycle.onPause = () => {
             egret.ticker.pause();
             App.TimerManager.pause();
             App.TweenUtils.pause();
-        }
-
+        };
         egret.lifecycle.onResume = () => {
             egret.ticker.resume();
             App.TimerManager.resume();
             App.TweenUtils.resume();
-        }
+        };
     }
-
     private onResize(): void {
         App.ControllerManager.applyFunc(ControllerConst.RpgGame, RpgGameConst.GameResize);
     }
-
     private loadResConfig(): void {
         //初始化Resource资源加载库
         App.ResourceUtils.addConfig("resource/default.res.json", "resource/");
@@ -80,7 +82,6 @@ class Main extends egret.DisplayObjectContainer {
         App.ResourceUtils.addConfig("resource/resource_rpg.json", "resource/");
         App.ResourceUtils.loadConfig(this.onConfigComplete, this);
     }
-
     /**
      * 配置文件加载完成,开始预加载preload资源组。
      */
@@ -89,23 +90,19 @@ class Main extends egret.DisplayObjectContainer {
         var theme = new eui.Theme("resource/default.thm.json", this.stage);
         theme.addEventListener(eui.UIEvent.COMPLETE, this.onThemeLoadComplete, this);
     }
-
     /**
      * 主题文件加载完成
      */
     private onThemeLoadComplete(): void {
         //模块初始化
         this.initModule();
-
         //设置加载进度界面
         App.SceneManager.runScene(SceneConsts.LOADING);
-
         //开启游戏
         new RpgTest();
         new ProtoBufTest();
         // new EUITest();
     }
-
     /**
      * 初始化所有场景
      */
@@ -115,7 +112,6 @@ class Main extends egret.DisplayObjectContainer {
         App.SceneManager.register(SceneConsts.Game, new GameScene());
         App.SceneManager.register(SceneConsts.RpgGame, new RpgGameScene());
     }
-
     /**
      * 初始化所有模块
      */
@@ -123,5 +119,3 @@ class Main extends egret.DisplayObjectContainer {
         App.ControllerManager.register(ControllerConst.Loading, new LoadingController());
     }
 }
-
-
