@@ -1,3 +1,16 @@
+import './example/module/rpgGame/object/RpgPlayer'
+import './example/module/rpgGame/components/AiComponent'
+import './example/module/rpgGame/components/AoiComponent'
+import './example/module/rpgGame/components/AvatarComponent'
+import './example/module/rpgGame/components/AvatarSkillComponent'
+import './example/module/rpgGame/components/CameraComponent'
+import './example/module/rpgGame/components/MoveComponent'
+import './example/module/rpgGame/components/ControlComponent'
+import './example/module/rpgGame/components/SortComponent'
+import './example/module/rpgGame/components/HeadComponent'
+import './example/module/rpgGame/components/AutoBattleComponent'
+import './example/module/rpgGame/components/BattleComponent'
+
 /**
  * Copyright (c) 2014,Egret-Labs.org
  * All rights reserved.

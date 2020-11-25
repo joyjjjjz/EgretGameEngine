@@ -24,7 +24,9 @@ export class HomeView extends BaseEuiView {
      */
     public initUI(): void {
         super.initUI();
-        this.menu.addEventListener(egret.TouchEvent.TOUCH_TAP, this.menuClickHandler, this);
+        if(this.menu){
+            this.menu.addEventListener(egret.TouchEvent.TOUCH_TAP, this.menuClickHandler, this);
+        }
         this.menuBtn.addEventListener(egret.Event.CHANGE, this.menuBtnChangeHandler, this);
         this.friendBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.friendClickHandler, this);
         this.shopBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.shopClickHandler, this);
