@@ -10,6 +10,7 @@ import './example/module/rpgGame/components/SortComponent'
 import './example/module/rpgGame/components/HeadComponent'
 import './example/module/rpgGame/components/AutoBattleComponent'
 import './example/module/rpgGame/components/BattleComponent'
+import './example/module/components/Menu'
 
 /**
  * Copyright (c) 2014,Egret-Labs.org
@@ -62,6 +63,7 @@ export class Main extends egret.DisplayObjectContainer {
         egret.registerImplementation("eui.IThemeAdapter", new ThemeAdapter());
         //适配方式(全屏适配)
         App.StageUtils.startFullscreenAdaptation(650, 1000, this.onResize);
+        this.simulateModule();
         //初始化
         this.initLifecycle();
         this.initScene();
@@ -131,4 +133,17 @@ export class Main extends egret.DisplayObjectContainer {
     private initModule(): void {
         App.ControllerManager.register(ControllerConst.Loading, new LoadingController());
     }
+
+    private simulateModule(): void {
+        let skins = ["resource/skins/MenuSkin.exml"];
+        skins = [];
+        for(let s of skins){
+            EXML.load(s, this.onLoaded, this);
+        }
+    }
+    private onLoaded(clazz:any, url:string):void{
+        var button = new eui.Button();
+        button.skinName = clazz;
+        this.addChild(button);
+    }    
 }
